@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informe Google Ads — MB Vajilla</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --bg:      #020617;
+      --card:    #0F172A;
+      --card2:   #1E293B;
+      --border:  #1E293B;
+      --text:    #F8FAFC;
+      --muted:   #94A3B8;
+      --green:   #22C55E;
+      --gA:      rgba(34,197,94,.15);
+      --blue:    #3B82F6;
+      --bA:      rgba(59,130,246,.15);
+      --orange:  #F59E0B;
+      --oA:      rgba(245,158,11,.15);
+      --red:     #EF4444;
+      --rA:      rgba(239,68,68,.12);
+      --gray:    #475569;
+      --grayA:   rgba(71,85,105,.2);
+      --radius:  12px;
+    }
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:'Fira Sans',sans-serif;font-size:14px;line-height:1.6;}
+    h1,h2,h3,h4{font-family:'Fira Code',monospace;}
+
+    /* ── HEADER ── */
+    .header{
+      background:linear-gradient(160deg,#0F172A 0%,#1E293B 60%,#0F172A 100%);
+      border-bottom:1px solid rgba(34,197,94,.15);
+      padding:48px 32px 40px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .header::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(34,197,94,.06),transparent);
+      pointer-events:none;
+    }
+    @keyframes bounce{0%,100%{transform:translateY(0)scale(1);}40%{transform:translateY(-14px)scale(1.03);}60%{transform:translateY(-6px)scale(1.01);}}
+    @media(prefers-reduced-motion:reduce){.logo-b{animation:none!important;}}
+    .logo-b{width:86px;height:86px;object-fit:contain;border-radius:12px;animation:bounce 3s ease-in-out infinite;margin-bottom:20px;box-shadow:0 8px 32px rgba(34,197,94,.2);}
+    .h-title{font-size:clamp(1.4rem,3vw,2.1rem);font-weight:700;letter-spacing:-.02em;margin-bottom:6px;}
+    .h-sub{color:var(--muted);font-size:.875rem;margin-bottom:24px;}
+    .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;}
+    .b-green{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+    .b-orange{background:var(--oA);color:#FBBF24;border:1px solid rgba(245,158,11,.3);}
+    .b-blue{background:var(--bA);color:#60A5FA;border:1px solid rgba(59,130,246,.3);}
+    .b-red{background:var(--rA);color:#F87171;border:1px solid rgba(239,68,68,.3);}
+
+    /* ── PERIOD SELECTOR ── */
+    .period-bar{
+      background:var(--card);
+      border-bottom:1px solid var(--border);
+      padding:14px 32px;
+      position:sticky;top:0;z-index:100;
+    }
+    .period-row1{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .period-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);white-space:nowrap;display:flex;align-items:center;gap:6px;}
+    .date-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .date-lbl{font-size:.72rem;color:var(--muted);white-space:nowrap;}
+    .date-input{
+      background:#1E293B;color:var(--text);border:1px solid #334155;
+      border-radius:8px;padding:7px 12px;font-size:.8rem;font-family:'Fira Sans',sans-serif;
+      cursor:pointer;transition:border-color 200ms ease;outline:none;
+      color-scheme:dark;
+    }
+    .date-input:hover{border-color:rgba(34,197,94,.5);}
+    .date-input:focus{border-color:var(--green);box-shadow:0 0 0 2px rgba(34,197,94,.15);}
+    .date-sep{color:var(--muted);font-size:.8rem;}
+    .apply-btn{
+      background:var(--green);color:#020617;border:none;
+      padding:7px 18px;border-radius:8px;font-size:.8rem;font-weight:700;
+      cursor:pointer;transition:all 200ms ease;font-family:'Fira Sans',sans-serif;white-space:nowrap;
+    }
+    .apply-btn:hover{opacity:.88;transform:translateY(-1px);}
+    .apply-btn:focus{outline:2px solid var(--green);outline-offset:2px;}
+    .period-status{
+      margin-left:auto;font-size:.72rem;padding:4px 12px;border-radius:20px;
+      font-weight:600;white-space:nowrap;
+    }
+    .ps-alltime{background:rgba(59,130,246,.12);color:#60A5FA;border:1px solid rgba(59,130,246,.3);}
+    .ps-lastmonth{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.3);}
+    .ps-nodata{background:rgba(239,68,68,.12);color:#F87171;border:1px solid rgba(239,68,68,.3);}
+
+    .period-row2{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid rgba(30,41,59,.6);}
+    .preset-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+    .preset-btn{
+      background:transparent;color:var(--muted);border:1px solid var(--border);
+      padding:4px 14px;border-radius:20px;font-size:.73rem;font-weight:600;cursor:pointer;
+      transition:all 150ms ease;font-family:'Fira Sans',sans-serif;white-space:nowrap;
+    }
+    .preset-btn:hover{border-color:rgba(34,197,94,.5);color:var(--text);}
+    .preset-btn.active{background:rgba(34,197,94,.12);border-color:var(--green);color:var(--green);}
+    .preset-btn:focus{outline:2px solid var(--green);outline-offset:2px;}
+
+    /* ── NOTA DE SECCIÓN (por debajo de cada gráfico estático) ── */
+    .sec-data-note{
+      display:flex;align-items:flex-start;gap:10px;
+      background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.18);
+      border-radius:8px;padding:10px 14px;margin-top:14px;
+      font-size:.76rem;color:#93C5FD;line-height:1.5;
+    }
+    .sec-data-note.hidden{display:none!important;}
+    .sec-data-note svg{flex-shrink:0;margin-top:1px;}
+
+    .period-note{
+      background:rgba(59,130,246,.08);
+      border:1px solid rgba(59,130,246,.25);
+      border-radius:8px;
+      padding:10px 16px;
+      font-size:.78rem;
+      color:#93C5FD;
+      margin-bottom:24px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    /* ── CONTAINER ── */
+    .container{max-width:1200px;margin:0 auto;padding:40px 32px;}
+
+    /* ── SECTION ── */
+    .section{margin-bottom:56px;}
+    .section-hd{display:flex;align-items:center;gap:14px;margin-bottom:8px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+    .sec-icon{width:36px;height:36px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .sec-title{font-size:1.05rem;font-weight:600;}
+    .sec-meta{color:var(--muted);font-size:.72rem;margin-left:auto;}
+    .sec-desc{font-size:.84rem;color:var(--muted);margin-bottom:20px;line-height:1.6;max-width:780px;}
+    .sec-desc strong{color:#93C5FD;}
+
+    /* ── KPI GRID ── */
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+    .kpi-card{
+      background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+      padding:20px;transition:border-color 200ms ease,box-shadow 200ms ease,transform 200ms ease;
+      position:relative;
+    }
+    .kpi-card:hover{border-color:rgba(34,197,94,.4);box-shadow:0 4px 20px rgba(34,197,94,.07);transform:translateY(-2px);}
+    .kpi-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+    .kpi-val{font-family:'Fira Code',monospace;font-size:1.75rem;font-weight:700;line-height:1.1;transition:all 300ms ease;}
+    .kpi-sub{font-size:.72rem;color:var(--muted);margin-top:4px;}
+    .kpi-exp{font-size:.73rem;color:#64748B;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.5;}
+    .kv-green{color:var(--green);} .kv-blue{color:#60A5FA;} .kv-orange{color:#FBBF24;} .kv-red{color:#F87171;}
+
+    /* info toggle */
+    .info-btn{
+      width:16px;height:16px;border-radius:50%;background:var(--card2);border:1px solid var(--border);
+      color:var(--muted);font-size:9px;font-weight:700;cursor:pointer;display:inline-flex;
+      align-items:center;justify-content:center;transition:all 150ms ease;flex-shrink:0;
+    }
+    .info-btn:hover,.info-btn.open{background:rgba(59,130,246,.2);color:#60A5FA;border-color:#60A5FA;}
+    .info-box{display:none;margin-top:10px;padding:10px 12px;background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.2);border-radius:8px;font-size:.76rem;color:#93C5FD;line-height:1.55;}
+    .info-box.visible{display:block;}
+
+    /* ── CHART CARD ── */
+    .chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;}
+    .chart-wrap{position:relative;height:320px;}
+    .chart-wrap-sm{position:relative;height:260px;}
+    .chart-wrap-xs{position:relative;height:200px;width:200px;margin:0 auto;}
+    .chart-legend{margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;font-size:.75rem;color:var(--muted);}
+    .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:4px;}
+
+    /* ── GRIDS ── */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+
+    /* ── FILTER BTNS ── */
+    .frow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+    .fbtn{background:transparent;color:var(--muted);border:1px solid var(--border);padding:6px 16px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all 200ms ease;font-family:'Fira Sans',sans-serif;}
+    .fbtn:hover{border-color:rgba(34,197,94,.4);color:var(--text);}
+    .fbtn.active{background:rgba(34,197,94,.12);border-color:var(--green);color:var(--green);}
+    .fbtn:focus{outline:2px solid var(--green);outline-offset:2px;}
+
+    /* ── STATUS BADGES ── */
+    .sb{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+    .sb-on{background:rgba(34,197,94,.12);color:var(--green);}
+    .sb-off{background:rgba(71,85,105,.15);color:#94A3B8;}
+    .sb-inelg{background:var(--rA);color:#F87171;}
+
+    /* ── TABLE ── */
+    .tbl{width:100%;border-collapse:collapse;}
+    .tbl th{background:#1E293B;color:var(--muted);font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:10px 16px;text-align:left;border-bottom:1px solid #2D3748;}
+    .tbl td{padding:9px 16px;border-bottom:1px solid rgba(30,41,59,.6);font-size:.8rem;}
+    .tbl tr:last-child td{border-bottom:none;}
+    .tbl tbody tr:hover td{background:rgba(30,41,59,.3);}
+
+    /* ── PHONE ── */
+    .phone-layout{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;}
+    .stat-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(30,41,59,.7);}
+    .stat-row:last-child{border-bottom:none;}
+    .stat-label{font-size:.76rem;color:var(--muted);}
+    .stat-value{font-family:'Fira Code',monospace;font-size:.88rem;font-weight:600;}
+
+    /* ── REC CARDS ── */
+    .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;}
+    .rec-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;border-left:3px solid transparent;transition:transform 200ms ease,box-shadow 200ms ease;}
+    .rec-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2);}
+    .rc-urgent{border-left-color:#EF4444;} .rc-opp{border-left-color:var(--green);} .rc-warn{border-left-color:var(--orange);} .rc-info{border-left-color:var(--blue);}
+    .rec-tag{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+    .rt-urgent{color:#F87171;} .rt-opp{color:var(--green);} .rt-warn{color:#FBBF24;} .rt-info{color:#60A5FA;}
+    .rec-title{font-family:'Fira Code',monospace;font-size:.88rem;font-weight:600;margin-bottom:8px;line-height:1.4;}
+    .rec-body{font-size:.79rem;color:var(--muted);line-height:1.55;}
+
+    /* ── GLOSSARY ── */
+    .gloss-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+    .gloss-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;}
+    .gloss-term{font-family:'Fira Code',monospace;font-size:.8rem;font-weight:700;color:var(--green);margin-bottom:6px;}
+    .gloss-def{font-size:.79rem;color:var(--muted);line-height:1.5;}
+
+    /* ── FADE-IN ── */
+    .fi{opacity:0;transform:translateY(16px);transition:opacity 450ms ease,transform 450ms ease;}
+    .fi.vis{opacity:1;transform:translateY(0);}
+
+    /* ── FOOTER ── */
+    .footer{background:var(--card);border-top:1px solid var(--border);padding:24px 24px 28px;text-align:center;margin-top:48px;}
+    .footer-txt{color:var(--muted);font-size:.75rem;}
+    .footer-brand{color:var(--green);font-family:'Fira Code',monospace;font-weight:600;}
+
+    /* ── POWERED BY MFLOWSUITE ── */
+    #hl-pw-scene{position:relative;display:inline-block;margin-top:.75rem;}
+    #hl-pw-row{display:inline-flex;align-items:center;font-family:'Fira Sans',sans-serif;font-size:11px;font-weight:600;white-space:nowrap;color:rgba(255,255,255,.55);}
+    .hl-pw-by{color:rgba(255,255,255,.3);}
+    #hl-pw-slot{display:inline-block;width:28px;height:28px;margin:0 5px;vertical-align:middle;flex-shrink:0;}
+    #hl-pw-logo{position:absolute;top:0;left:0;width:28px;height:28px;border-radius:50%;object-fit:cover;pointer-events:none;}
+    #hl-pw-chars .pw-ch{display:inline-block;}
+    #hl-pw-logo.pw-glow{filter:drop-shadow(0 0 6px rgba(59,130,246,.9));}
+    .hl-pw-wrap{text-align:center;padding:12px 0 4px;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}.phone-layout{grid-template-columns:1fr;}}
+    @media(max-width:600px){.kpi-grid{grid-template-columns:1fr 1fr;}.container{padding:24px 16px;}.period-bar{padding:12px 16px;}}
+    canvas{max-width:100%;display:block;}
+
+    /* ── TOOLTIP ── */
+    [data-tip]{position:relative;cursor:help;}
+    [data-tip]::after{
+      content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+      background:#1E293B;color:#F8FAFC;font-size:.7rem;padding:6px 10px;border-radius:6px;
+      white-space:nowrap;max-width:220px;white-space:normal;text-align:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:200;pointer-events:none;opacity:0;transition:opacity 150ms ease;
+      font-family:'Fira Sans',sans-serif;font-weight:400;line-height:1.4;
+    }
+    [data-tip]:hover::after{opacity:1;}
+  </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="header">
+  <img src="LOGO-MBVAJILLA.jpg" alt="MB Vajilla" class="logo-b">
+  <h1 class="h-title">Informe de Performance — Google Ads</h1>
+  <p class="h-sub">Análisis completo de campañas · Fábrica MB Vajilla · Argentina</p>
+  <div class="badges">
+    <span class="badge b-green">
+      <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+      MB-Vajilla-Search: Activa
+    </span>
+    <span class="badge b-red">
+      <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+      Campaña creada por Google: Detenida
+    </span>
+    <span class="badge b-blue">Moneda: ARS</span>
+    <span class="badge b-orange">Generado: 5 de mayo de 2026</span>
+  </div>
+</header>
+
+<!-- ═══ PERIOD SELECTOR ═══ -->
+<div class="period-bar">
+  <div class="period-row1">
+    <span class="period-label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Período de análisis:
+    </span>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <button class="preset-btn active" id="preset-all" onclick="applyPreset('all',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:5px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Todo el historial &nbsp;<span style="opacity:.6;font-weight:400">Jul 2025 – May 2026</span>
+      </button>
+      <button class="preset-btn" id="preset-lastmonth" onclick="applyPreset('lastmonth',this)">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:5px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Último mes &nbsp;<span style="opacity:.6;font-weight:400">7 Abr – 4 May 2026</span>
+      </button>
+    </div>
+    <span class="period-status ps-alltime" id="periodStatus">Todo el historial</span>
+  </div>
+  <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(30,41,59,.6);font-size:.7rem;color:var(--muted);">
+    Solo hay 2 cortes de datos disponibles — para ver períodos más cortos hay que exportar nuevos informes desde Google Ads.
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main class="container">
+
+  <!-- ─── AVISO DE PERÍODO ─── -->
+  <div class="period-note" id="periodNote">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span id="periodNoteText">
+      Estás viendo <strong>todo el historial</strong> de la cuenta desde que empezaron a publicar en Google.
+    </span>
+  </div>
+
+  <!-- ─── KPIs ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 4-4"/></svg>
+      </div>
+      <h2 class="sec-title">Resumen — ¿Cómo va la publicidad?</h2>
+      <span class="sec-meta" id="kpiPeriodLabel">Todo el historial</span>
+    </div>
+    <p class="sec-desc">
+      Estos son los <strong>6 números más importantes</strong> de la publicidad en Google.
+      Hacé clic en el <strong>botón (i)</strong> de cada tarjeta para entender qué significa cada número.
+    </p>
+    <div class="kpi-grid">
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          Veces que entró gente
+          <button class="info-btn" onclick="toggleInfo(this,'infoClicks')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val kv-green" id="valClicks">45,465</div>
+        <div class="kpi-sub" id="subClicks">Clicks totales</div>
+        <div class="info-box" id="infoClicks">
+          Cada vez que alguien buscó algo en Google relacionado con vajilla y <strong>tocó tu anuncio</strong> para entrar a tu página, se cuenta como 1 click. Cuanto más, mejor.
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          Veces que apareció el anuncio
+          <button class="info-btn" onclick="toggleInfo(this,'infoImpr')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val" id="valImpr">725,691</div>
+        <div class="kpi-sub" id="subImpr">Impresiones</div>
+        <div class="info-box" id="infoImpr">
+          Cada vez que alguien buscó algo en Google y <strong>apareció tu anuncio en la pantalla</strong> (aunque no hiciera clic), cuenta como 1 impresión. Es como cuántas personas vieron tu cartel.
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          De 100 que lo vieron, ¿cuántos entraron?
+          <button class="info-btn" onclick="toggleInfo(this,'infoCTR')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val kv-green" id="valCTR">6.27%</div>
+        <div class="kpi-sub" id="subCTR">CTR — tasa de clics</div>
+        <div class="info-box" id="infoCTR">
+          Es el porcentaje de personas que vieron el anuncio y decidieron entrar. Por ejemplo: <strong>6.27% significa que de cada 100 personas que vieron el anuncio, unas 6 hicieron clic</strong>. Un número más alto es mejor — significa que el anuncio es atractivo.
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          Clientes potenciales obtenidos
+          <button class="info-btn" onclick="toggleInfo(this,'infoConv')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val kv-green" id="valConv">1,264</div>
+        <div class="kpi-sub" id="subConv">Conversiones (2.78%)</div>
+        <div class="info-box" id="infoConv">
+          Una "conversión" ocurre cuando alguien que entró desde el anuncio hizo algo importante: completar un formulario de contacto, llamar por teléfono, o hacer una consulta. <strong>Son tus clientes potenciales reales.</strong>
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          Total pagado a Google
+          <button class="info-btn" onclick="toggleInfo(this,'infoCost')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val kv-orange" id="valCost">$2.71M</div>
+        <div class="kpi-sub" id="subCost">ARS 2,713,283</div>
+        <div class="info-box" id="infoCost">
+          Es todo el dinero invertido en Google Ads. Con Google Ads, <strong>solo pagás cuando alguien hace clic</strong> en tu anuncio — no pagás por simplemente aparecer.
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-lbl">
+          Costo por cliente potencial
+          <button class="info-btn" onclick="toggleInfo(this,'infoCPA')" title="Qué significa esto">i</button>
+        </div>
+        <div class="kpi-val kv-blue" id="valCPA">$2,147</div>
+        <div class="kpi-sub" id="subCPA">ARS por conversión</div>
+        <div class="info-box" id="infoCPA">
+          ¿Cuánto te cuesta conseguir cada cliente potencial? Si el promedio de venta es mucho mayor a ARS 2,147, la publicidad es rentable. <strong>Menos es mejor</strong> — significa que cada contacto cuesta menos.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── EVOLUCIÓN MENSUAL ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h2 class="sec-title">¿Cómo creció la publicidad mes a mes?</h2>
+      <span class="sec-meta">Jul 2025 – May 2026 · Historial completo</span>
+    </div>
+    <p class="sec-desc">
+      MB Vajilla <strong>empezó a publicar en Google en julio de 2025</strong> — antes de esa fecha la cuenta existía pero no tenía actividad.
+      Este gráfico muestra cómo fue creciendo la cantidad de veces que el anuncio apareció en pantalla cada mes.
+      <strong>Marzo y abril de 2026 fueron los mejores meses.</strong>
+      La caída de febrero de 2026 puede deberse a una pausa en la campaña o a una reducción del presupuesto ese mes.
+    </p>
+    <div class="chart-card">
+      <div class="chart-wrap"><canvas id="chartEvol"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#22C55E;"></span>Impresiones mensuales (veces que apareció el anuncio)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CAMPAIGN COMPARISON ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      <h2 class="sec-title">Comparativa de Campañas</h2>
+    </div>
+    <p class="sec-desc">
+      Tenés <strong>dos campañas</strong> en Google Ads. Una es la que configuraste vos (MB-Vajilla-Search),
+      y otra la creó Google automáticamente. Acá podés comparar cuál funcionó mejor en distintas métricas.
+      Usá los botones para cambiar qué número querés ver.
+    </p>
+    <div class="chart-card">
+      <div class="frow" id="campFilters">
+        <button class="fbtn active" onclick="setCampM('clicks',this)">Clicks (entradas)</button>
+        <button class="fbtn" onclick="setCampM('impressions',this)">Apariciones</button>
+        <button class="fbtn" onclick="setCampM('conversions',this)">Clientes potenciales</button>
+        <button class="fbtn" onclick="setCampM('cost',this)">Gasto (ARS)</button>
+        <button class="fbtn" onclick="setCampM('ctr',this)">% de clics</button>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="chartCamp"></canvas>
+      </div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#22C55E;"></span>MB-Vajilla-Search (campaña principal, activa)</span>
+        <span id="campLegend2"><span class="legend-dot" style="background:#475569;"></span>Campaña creada por Google (detenida)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DEMOGRAPHICS ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h2 class="sec-title">¿Quién es tu cliente?</h2>
+      <span class="sec-meta">Datos demográficos · Google Ads</span>
+    </div>
+    <p class="sec-desc">
+      Google detecta la <strong>edad y el sexo aproximado</strong> de las personas que ven los anuncios, basándose en su historial de navegación.
+      Esto no es exacto al 100%, pero da una idea muy buena del perfil del cliente.<br><br>
+      El grupo más grande son personas de <strong>45 a 54 años</strong> — la edad típica del dueño o encargado de compras de un restaurante o hotel.
+      Y más del <strong>55% son mujeres</strong>, lo que refleja quiénes toman las decisiones de compra en el sector gastronómico argentino.
+    </p>
+    <div class="g2">
+      <div class="chart-card">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;">Distribución por edad (% de impresiones)</p>
+        <div class="chart-wrap"><canvas id="chartAge"></canvas></div>
+      </div>
+      <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;align-self:flex-start;">Distribución por sexo</p>
+        <div class="chart-wrap-xs"><canvas id="chartSex"></canvas></div>
+        <div class="chart-legend" style="margin-top:12px;">
+          <span><span class="legend-dot" style="background:#22C55E;"></span>Mujeres</span>
+          <span><span class="legend-dot" style="background:#3B82F6;"></span>Hombres</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── TIMING & DEVICES ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h2 class="sec-title">¿Cuándo y desde dónde te buscan?</h2>
+      <span class="sec-meta">Último mes · 7 Abr – 4 May 2026</span>
+    </div>
+    <p class="sec-desc">
+      Estos tres gráficos muestran el <strong>horario, el día y el dispositivo</strong> desde donde la gente ve los anuncios.<br><br>
+      El pico más alto es el <strong>lunes a las 11 de la mañana</strong> — típico de dueños de restaurantes que empiezan la semana buscando proveedores.
+      Y casi <strong>todas las conversiones vienen del teléfono celular</strong>. Si la página web no carga rápido en el celular, se pierden clientes.
+    </p>
+    <div class="chart-card" style="margin-bottom:16px;">
+      <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;">Impresiones por hora del día (0 = medianoche, 12 = mediodía)</p>
+      <div class="chart-wrap"><canvas id="chartHours"></canvas></div>
+    </div>
+    <div class="g2">
+      <div class="chart-card">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;">Impresiones por día de la semana</p>
+        <div class="chart-wrap-sm"><canvas id="chartDays"></canvas></div>
+      </div>
+      <div class="chart-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;align-self:flex-start;">Dispositivo — clicks y conversiones</p>
+        <div class="chart-wrap-xs"><canvas id="chartDevices"></canvas></div>
+        <div class="chart-legend" style="margin-top:12px;">
+          <span><span class="legend-dot" style="background:#22C55E;"></span>Celular (235 clicks · 18 conv)</span>
+          <span><span class="legend-dot" style="background:#475569;"></span>PC (27 clicks · 0 conv)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── AD GROUPS ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h2 class="sec-title">Grupos de Anuncios — ¿Qué productos se anuncian?</h2>
+      <span class="sec-meta">7 Abr – 4 May 2026</span>
+    </div>
+    <p class="sec-desc">
+      Los anuncios están organizados por <strong>tipo de producto</strong>: platos, bowls, pizzeras, etc.
+      Cada grupo tiene sus propios anuncios. Los que están en <strong style="color:var(--green)">verde</strong> están activos y mostrándose;
+      los que están en <strong style="color:#94A3B8">gris</strong> están pausados y no aparecen en Google.
+      <strong>8 de 11 grupos están pausados</strong> — esto es algo importante a resolver.
+    </p>
+    <div class="g2">
+      <div class="chart-card">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;">Clientes obtenidos y clicks — solo grupos activos</p>
+        <div class="chart-wrap-sm"><canvas id="chartAG"></canvas></div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background:#22C55E;"></span>Clientes potenciales obtenidos</span>
+          <span><span class="legend-dot" style="background:#3B82F6;"></span>Clics recibidos</span>
+        </div>
+      </div>
+      <div class="chart-card" style="overflow-x:auto;">
+        <p style="font-family:'Fira Code',monospace;font-size:.76rem;color:var(--muted);margin-bottom:16px;">Estado completo de todos los grupos</p>
+        <table class="tbl">
+          <thead>
+            <tr><th>Grupo de anuncio</th><th>Estado</th><th>Clientes</th><th>% de clic</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-tip="Anuncios que muestran vajilla en general, vendida al por mayor">Vajilla Mayorista</td>
+              <td><span class="sb sb-on">Activo</span></td>
+              <td style="color:var(--green);font-weight:700;font-family:'Fira Code',monospace;">28</td>
+              <td>16.86%</td>
+            </tr>
+            <tr>
+              <td data-tip="Anuncios de artículos de bazar para gastronomía">Bazar Gastronomico</td>
+              <td><span class="sb sb-on">Activo</span></td>
+              <td style="color:var(--green);font-weight:700;font-family:'Fira Code',monospace;">18</td>
+              <td>6.81%</td>
+            </tr>
+            <tr>
+              <td data-tip="Anuncios enfocados en platos para restaurantes">Platos Para Restaurante</td>
+              <td><span class="sb sb-on">Activo</span></td>
+              <td style="color:var(--green);font-weight:700;font-family:'Fira Code',monospace;">4</td>
+              <td>11.96%</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Cuencos</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Vajilla (grupo general)</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Provoletera</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Ensaladeras</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Pizzeras</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Bowls</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>Brand (marca)</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+            <tr style="opacity:.55">
+              <td>platos</td>
+              <td><span class="sb sb-off">Pausado</span></td>
+              <td>0</td><td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GEOGRAPHY ─── -->
+  <section class="section fi" id="secGeo">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <h2 class="sec-title">¿De dónde son las personas que ven los anuncios?</h2>
+      <span class="sec-meta">Campaña creada por Google · Todo el historial</span>
+    </div>
+    <p class="sec-desc">
+      Este gráfico muestra en qué <strong>provincias de Argentina</strong> apareció más tu publicidad.
+      Las barras azules muestran cuántas personas entraron al anuncio (clicks);
+      las barras verdes muestran cuántas se convirtieron en clientes potenciales.
+      Buenos Aires es la que más volumen tiene, pero <strong>Córdoba y Entre Ríos tienen mejor porcentaje de respuesta</strong>.
+    </p>
+    <div class="chart-card">
+      <div class="chart-wrap"><canvas id="chartGeo"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#3B82F6;"></span>Clicks (personas que entraron al sitio)</span>
+        <span><span class="legend-dot" style="background:#22C55E;"></span>Conversiones (clientes potenciales)</span>
+      </div>
+    </div>
+    <div class="sec-data-note hidden" id="noteGeo">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Este gráfico muestra datos del <strong>historial completo</strong>. Los archivos exportados de Google Ads no incluyen el desglose por provincia para el período mensual — esa información solo está disponible en el total acumulado.</span>
+    </div>
+  </section>
+
+  <!-- ─── KEYWORDS ─── -->
+  <section class="section fi" id="secKW">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <h2 class="sec-title">¿Qué palabras usa la gente para encontrar MB Vajilla?</h2>
+      <span class="sec-meta">Todo el historial · Top 4 por resultado</span>
+    </div>
+    <p class="sec-desc">
+      Son las palabras o frases que alguien escribe en Google y que hacen que aparezca tu anuncio.
+      Acá están las <strong>4 palabras clave que más clientes potenciales generaron</strong>.
+      La línea naranja muestra el porcentaje de clics (más alto = el anuncio es muy relevante para esa búsqueda).
+    </p>
+    <div class="chart-card">
+      <div class="chart-wrap"><canvas id="chartKW"></canvas></div>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background:#22C55E;"></span>Clientes potenciales generados</span>
+        <span><span class="legend-dot" style="background:#F59E0B;"></span>Porcentaje de clics (CTR) — línea naranja</span>
+      </div>
+    </div>
+    <div class="sec-data-note hidden" id="noteKW">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Este gráfico muestra datos del <strong>historial completo</strong>. El desglose por palabra clave para el período mensual no está en los archivos exportados. Estas son las palabras que mejor funcionaron desde el inicio de la campaña.</span>
+    </div>
+  </section>
+
+  <!-- ─── PHONE ─── -->
+  <section class="section fi" id="secPhone">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <h2 class="sec-title">Llamadas Telefónicas desde los Anuncios</h2>
+    </div>
+    <p class="sec-desc">
+      Google también puede mostrar el <strong>número de teléfono directo</strong> en el anuncio para que la gente llame sin entrar al sitio.
+      Acá ves cuántas llamadas se recibieron y cuántas terminaron siendo un cliente potencial.
+      El gráfico de torta muestra la proporción: verde = convirtieron, gris = no convirtieron.
+    </p>
+    <div class="chart-card">
+      <div class="phone-layout">
+        <div>
+          <div class="chart-wrap-xs"><canvas id="chartPhone"></canvas></div>
+          <p style="text-align:center;font-size:.72rem;color:var(--muted);margin-top:10px;">354 llamadas totales</p>
+        </div>
+        <div>
+          <div class="stat-row">
+            <span class="stat-label">Total de llamadas recibidas</span>
+            <span class="stat-value" style="color:var(--green);">354</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label" data-tip="Cuántas veces apareció el botón de llamada en el anuncio">Veces que apareció el botón de llamada</span>
+            <span class="stat-value">172,864</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label" data-tip="De cada 100 veces que apareció, cuántas veces llamaron">De 100 apariciones del botón, cuántos llamaron</span>
+            <span class="stat-value">0.20%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label" data-tip="Qué porcentaje del tiempo el botón de llamada pudo mostrarse">Disponibilidad del botón</span>
+            <span class="stat-value">38.31%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Llamadas que se convirtieron en cliente potencial</span>
+            <span class="stat-value" style="color:var(--green);">8 de 354</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Porcentaje de llamadas que convirtieron</span>
+            <span class="stat-value">2.26%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Dinero gastado en llamadas</span>
+            <span class="stat-value">ARS 21,664</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Costo por cada llamada</span>
+            <span class="stat-value">ARS 61.20</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Costo por cliente obtenido vía llamada</span>
+            <span class="stat-value" style="color:#FBBF24;">ARS 2,708</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sec-data-note hidden" id="notePhone">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>Los datos de llamadas son del <strong>historial completo</strong> (354 llamadas desde el inicio de la cuenta). Google Ads exporta las llamadas como un resumen total — no hay desglose mensual disponible.</span>
+    </div>
+  </section>
+
+  <!-- ─── NEG KEYWORDS ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+      </div>
+      <h2 class="sec-title">Palabras que se Excluyen (Negativas)</h2>
+      <span class="sec-meta">23 exclusiones activas</span>
+    </div>
+    <p class="sec-desc">
+      Las <strong>palabras negativas</strong> sirven para que el anuncio <strong>NO aparezca</strong> cuando alguien busca algo que no es tu cliente.
+      Por ejemplo: si alguien busca "metal" o "rodados", probablemente no busca vajilla gastronómica.
+      Excluir esas búsquedas <strong>ahorra dinero</strong> y evita que vengan visitas que no compran.
+    </p>
+    <div class="chart-card" style="overflow-x:auto;">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Palabra excluida</th>
+            <th>Campaña</th>
+            <th>Nivel</th>
+            <th>Por qué se excluye</th>
+          </tr>
+        </thead>
+        <tbody id="negTbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── CONCLUSIONS ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <h2 class="sec-title">¿Qué hay que hacer ahora? — Conclusiones</h2>
+    </div>
+    <p class="sec-desc">
+      Basado en todos los datos, estas son las acciones más importantes ordenadas por prioridad.
+      Las de <strong style="color:#F87171">borde rojo</strong> son urgentes, las de <strong style="color:#22C55E">borde verde</strong> son oportunidades de crecimiento.
+    </p>
+    <div class="rec-grid">
+      <div class="rec-card" style="border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.05);">
+        <div class="rec-tag" style="background:rgba(139,92,246,.15);color:#A78BFA;border:1px solid rgba(139,92,246,.3);">Contexto del Negocio B2B</div>
+        <div class="rec-title">¿Por qué una "conversión" vale mucho más de lo que parece?</div>
+        <div class="rec-body">
+          MB Vajilla vende al por mayor a restaurantes, hoteles, parrillas y bares — no a particulares. Eso significa que <strong>cada cliente potencial puede representar una compra de cientos o miles de pesos en vajilla</strong> para equipar todo un local.<br><br>
+          El costo de ARS&nbsp;2,147 por conversión es <strong>excelente para un negocio B2B gastronómico</strong>: si un cliente nuevo compra ARS&nbsp;50,000 en vajilla y vuelve cada año, ese costo de adquisición se recupera en la primera venta. El objetivo no es tener miles de clientes — es tener los clientes correctos: dueños de restaurantes, gerentes de hoteles, encargados de compras de cadenas.<br><br>
+          <strong>Por eso cada llamada y cada formulario completado es oro.</strong>
+        </div>
+      </div>
+      <div class="rec-card" style="border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.05);">
+        <div class="rec-tag" style="background:rgba(139,92,246,.15);color:#A78BFA;border:1px solid rgba(139,92,246,.3);">Oportunidad B2B</div>
+        <div class="rec-title">El sector gastronómico está creciendo — los anuncios tienen que llegar antes que la competencia</div>
+        <div class="rec-body">
+          Restaurantes, cervecerías artesanales y cocinas industriales renuevan vajilla constantemente. Con más de 600 productos y stock permanente desde 1996, MB Vajilla tiene una propuesta difícil de igualar. <strong>Pero si los anuncios no aparecen cuando el dueño de un restaurante busca "vajilla mayorista", entra otro proveedor.</strong><br><br>
+          Reactivar los grupos pausados (Cuencos, Platos, Pizzeras) es crítico: cada grupo detenido es una categoría de búsqueda que hoy no captura ningún cliente potencial.
+        </div>
+      </div>
+      <div class="rec-card rc-urgent">
+        <div class="rec-tag rt-urgent">Acción Urgente</div>
+        <div class="rec-title">8 grupos de anuncios pausados sin motivo claro</div>
+        <div class="rec-body">Los grupos de Cuencos, Vajilla, Provoletera, Ensaladeras, Bowls, Pizzeras, Platos y Brand están desactivados. Todos tienen calidad "Excelente" según Google. <strong>Cada día que pasan pausados es dinero que se deja de ganar.</strong> Se recomienda revisarlos y reactivar los más relevantes.</div>
+      </div>
+      <div class="rec-card rc-urgent">
+        <div class="rec-tag rt-urgent">Atención</div>
+        <div class="rec-title">La campaña automática de Google está detenida</div>
+        <div class="rec-body">Google creó una campaña automática que generó 23 clientes potenciales con un costo menor que la campaña principal (ARS 2,014 vs ARS 2,149 por cliente). Fue detenida. Se sugiere analizar por qué se pausó antes de descartarla definitivamente.</div>
+      </div>
+      <div class="rec-card rc-opp">
+        <div class="rec-tag rt-opp">Gran Oportunidad</div>
+        <div class="rec-title">Vajilla Mayorista es el grupo estrella</div>
+        <div class="rec-body">Este grupo tiene el <strong>16.86% de tasa de clic</strong> — el más alto de toda la cuenta — y generó 28 clientes potenciales en solo un mes. Invertir más presupuesto aquí es la apuesta más segura para conseguir más ventas con el menor riesgo.</div>
+      </div>
+      <div class="rec-card rc-opp">
+        <div class="rec-tag rt-opp">Oportunidad</div>
+        <div class="rec-title">Palabras clave muy rentables pero en grupos pausados</div>
+        <div class="rec-body">"Vajilla de fundición" convierte el <strong>14.58% de las personas que entran</strong> — un número excelente. "Comprar vajillas para eventos" generó 37 clientes potenciales. Ambas están en grupos pausados. Reactivarlas puede aumentar los resultados inmediatamente.</div>
+      </div>
+      <div class="rec-card rc-warn">
+        <div class="rec-tag rt-warn">Para Mejorar</div>
+        <div class="rec-title">Córdoba y Entre Ríos responden mejor que Buenos Aires</div>
+        <div class="rec-body">Buenos Aires tiene más volumen pero solo 5.84% de tasa de clic. Córdoba alcanza 7.96% y Entre Ríos llega a <strong>10.40%</strong>. Esto significa que en esas provincias el anuncio es más relevante para la gente que busca. Conviene invertir un poco más en esas zonas.</div>
+      </div>
+      <div class="rec-card rc-urgent">
+        <div class="rec-tag rt-urgent">Acción Urgente</div>
+        <div class="rec-title">El celular genera el 100% de las conversiones — la web tiene que cargar rápido</div>
+        <div class="rec-body">
+          En el último mes, el teléfono celular generó <strong>18 conversiones de 235 clicks</strong>. La computadora tuvo 27 clicks y <strong>0 conversiones</strong>. Esto significa que prácticamente todos los clientes potenciales vienen desde el celular.<br><br>
+          El problema: Google no pudo medir la velocidad de carga de la página en móviles — eso es una señal de alerta. Una página lenta en celular hace que la gente se vaya antes de contactar. <strong>Hay que medir y mejorar la velocidad mobile de mbvajilla.com.ar</strong> (herramienta gratuita: PageSpeed Insights de Google).
+        </div>
+      </div>
+      <div class="rec-card rc-urgent">
+        <div class="rec-tag rt-urgent">Oportunidad Inmediata</div>
+        <div class="rec-title">El lunes de 9 a 12 hs es el momento de oro — los anuncios deben estar encendidos</div>
+        <div class="rec-body">
+          El análisis por hora y día muestra que el pico máximo de búsquedas es el <strong>lunes entre las 10 y las 12 del mediodía</strong>. Es cuando los dueños y encargados de restaurantes empiezan la semana y buscan proveedores.<br><br>
+          Se puede configurar en Google Ads que el presupuesto se concentre en esos horarios (ajuste de puja por horario). Así el mismo dinero rinde más: <strong>aparecer cuando el cliente está activamente buscando</strong>, no a las 3 de la madrugada del domingo.
+        </div>
+      </div>
+      <div class="rec-card rc-warn">
+        <div class="rec-tag rt-warn">Para Analizar</div>
+        <div class="rec-title">El anuncio aparece cuando buscan competidores — y algunos se convierten</div>
+        <div class="rec-body">
+          En el informe de términos de búsqueda se ve que MB Vajilla aparece cuando alguien busca "bazar bashir", "bazar colucci", "bazar noblex" u otros competidores. Algunos de esos usuarios terminan contactando a MB Vajilla.<br><br>
+          Esto es una estrategia de <strong>captura de demanda de competidores</strong>. Funciona, pero también genera clicks pagos que van a cero (gente que solo buscaba el teléfono de otro local). Vale la pena revisar si conviene seguir apareciendo en esas búsquedas o agregar esos nombres como palabras negativas para ahorrar presupuesto.
+        </div>
+      </div>
+      <div class="rec-card rc-warn">
+        <div class="rec-tag rt-warn">Para Mejorar</div>
+        <div class="rec-title">Las llamadas telefónicas convierten poco (2.26%)</div>
+        <div class="rec-body">Solo 8 de 354 llamadas generaron un cliente potencial. Es posible que muchas llamadas lleguen fuera del horario de atención o que no se estén atendiendo bien. Configurar el anuncio para que solo aparezca el teléfono en <strong>horario comercial</strong> podría mejorar este número.</div>
+      </div>
+      <div class="rec-card rc-opp">
+        <div class="rec-tag rt-opp">Dato Nuevo</div>
+        <div class="rec-title">WhatsApp generó 440 contactos — pero costó ARS 142,870</div>
+        <div class="rec-body">La extensión de mensaje directo a WhatsApp (el botón que dice "Escribinos por WhatsApp" en el anuncio) tuvo <strong>440 clicks</strong> con un costo de ARS 142,870 — un promedio de ARS 325 por cada persona que escribió. Eso es barato para un negocio B2B. <strong>Si esos mensajes se atienden bien y rápido, pueden convertirse en clientes mayoristas.</strong> Vale la pena revisar cuántos de esos 440 se transformaron en ventas reales.</div>
+      </div>
+      <div class="rec-card rc-urgent">
+        <div class="rec-tag rt-urgent">Acción Urgente</div>
+        <div class="rec-title">El enlace "Nuestros Clientes" está rechazado por Google</div>
+        <div class="rec-body">Uno de los enlaces que aparecen debajo del anuncio principal ("Nuestros Clientes" apuntando a mbvajilla.com.ar/quienes-somos/) fue <strong>rechazado por Google</strong> y no se está mostrando. Esto reduce el espacio que ocupa el anuncio en la pantalla y puede bajar el puntaje de calidad. Hay que revisar ese enlace, corregir lo que Google rechazó (puede ser el texto o el destino) y volver a enviarlo para aprobación.</div>
+      </div>
+      <div class="rec-card rc-info">
+        <div class="rec-tag rt-info">Mejorar Calidad</div>
+        <div class="rec-title">Los anuncios necesitan ajustes según Google</div>
+        <div class="rec-body">Los 3 anuncios activos reciben sugerencias de Google: "Incluya más palabras clave en las descripciones" y algunos vínculos a sitios están rechazados. Aplicar estas mejoras puede hacer que el anuncio aparezca en mejor posición y que cada clic cueste menos.</div>
+      </div>
+      <div class="rec-card rc-info">
+        <div class="rec-tag rt-info">Estrategia</div>
+        <div class="rec-title">Agregar palabras excluidas para filtrar solo empresas gastronómicas</div>
+        <div class="rec-body">
+          Las 23 palabras negativas actuales son un buen comienzo (excluyen metales, alquileres, recetas). Como MB Vajilla vende <strong>exclusivamente al por mayor a restaurantes y hoteles</strong>, conviene bloquear búsquedas de consumidores finales. Se sugiere agregar:<br><br>
+          <strong>Para consumidores:</strong> "para casa", "doméstico", "casero", "para el hogar", "regalo", "decoración"<br>
+          <strong>Tutoriales y recetas:</strong> "tutorial", "cómo hacer", "receta", "video"<br>
+          <strong>Competencia irrelevante:</strong> "plástico", "descartable", "papel"<br><br>
+          Esto ahorra dinero y garantiza que cada clic sea de alguien que realmente puede comprar al por mayor.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GLOSARIO ─── -->
+  <section class="section fi">
+    <div class="section-hd">
+      <div class="sec-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <h2 class="sec-title">Glosario — Diccionario de Términos</h2>
+    </div>
+    <p class="sec-desc">¿No entendés algún término? Acá están explicados de forma simple.</p>
+    <div class="gloss-grid">
+      <div class="gloss-item">
+        <div class="gloss-term">Impresión</div>
+        <div class="gloss-def">Cada vez que tu anuncio aparece en la pantalla de alguien que busca en Google. No importa si hizo clic o no.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Click (Clic)</div>
+        <div class="gloss-def">Cuando alguien toca o hace clic en tu anuncio para entrar a tu página web. Cada clic tiene un costo.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">CTR</div>
+        <div class="gloss-def">"Click Through Rate" = tasa de clics. De cada 100 personas que vieron el anuncio, cuántas hicieron clic. Más alto es mejor.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Conversión</div>
+        <div class="gloss-def">Cuando alguien que entró desde el anuncio hace algo valioso: llena un formulario, llama, o hace una consulta. Es un cliente potencial real.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">CPC</div>
+        <div class="gloss-def">"Costo Por Click" = cuánto pagaste por cada persona que entró a tu sitio desde el anuncio.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">CPA / Costo por conversión</div>
+        <div class="gloss-def">Cuánto dinero costó conseguir cada cliente potencial. Se divide el gasto total por el número de conversiones.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Grupo de anuncios</div>
+        <div class="gloss-def">Una carpeta dentro de la campaña que agrupa anuncios de un mismo producto (ej: todos los anuncios de "platos" van juntos).</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Keyword / Palabra clave</div>
+        <div class="gloss-def">La frase que alguien escribe en Google para que aparezca tu anuncio. Ej: "vajilla para restaurante".</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Keyword negativa</div>
+        <div class="gloss-def">Una palabra para la que NO querés aparecer. Sirve para no gastar dinero en personas que no son tus clientes.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Ad Rank</div>
+        <div class="gloss-def">El puntaje que Google le da a tu anuncio para decidir en qué posición aparece. Mejor calidad = mejor posición = menor costo.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Campaña</div>
+        <div class="gloss-def">El nivel más alto. Agrupa todos los grupos de anuncios y tiene un presupuesto diario asignado.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">RSA</div>
+        <div class="gloss-def">"Responsive Search Ad" = anuncio de búsqueda responsivo. Google combina automáticamente distintos títulos y descripciones para mostrar la mejor combinación.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <p class="footer-txt">
+    Informe generado el 5 de mayo de 2026 &nbsp;·&nbsp;
+    <span class="footer-brand">MB Vajilla</span> &nbsp;·&nbsp;
+    Análisis Google Ads
+  </p>
+  <div class="hl-pw-wrap">
+    <a href="https://mflowsuite.com/" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
+      <div id="hl-pw-scene">
+        <div id="hl-pw-row" style="opacity:0;">
+          <span class="hl-pw-by">Powered by&nbsp;</span>
+          <span id="hl-pw-slot"></span>
+          <span id="hl-pw-chars"></span>
+        </div>
+        <img id="hl-pw-logo" src="https://reviews.mflowsuite.com/assets/mflowsuite-logo.png" alt="MflowSuite">
+      </div>
+    </a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+// ══ DATA ══════════════════════════════════════════════════════════════════════
+
+// Dos períodos disponibles
+const PERIODS = {
+  1: {
+    label: 'Todo el historial',
+    hint:  'Mostrando datos acumulados desde el inicio de la cuenta',
+    note:  'Estás viendo <strong>todo el historial</strong> de la cuenta desde que empezaron a publicar en Google. Para ver solo el último mes, hacé clic en "7 Abr – 4 May 2026" arriba.',
+    kpi: {
+      clicks:  { val:'45,465',  sub:'Clicks totales' },
+      impr:    { val:'725,691', sub:'Impresiones' },
+      ctr:     { val:'6.27%',   sub:'CTR — tasa de clics' },
+      conv:    { val:'1,264',   sub:'Conversiones (2.78%)' },
+      cost:    { val:'$2.71M',  sub:'ARS 2,713,283' },
+      cpa:     { val:'$2,147',  sub:'ARS por conversión' },
+    },
+    camp: {
+      labels:      ['MB-Vajilla-Search','Campaña creada\npor Google'],
+      clicks:      [41695, 3443],
+      impressions: [545152, 55344],
+      conversions: [1240, 23],
+      cost:        [2665471, 47813],
+      ctr:         [7.65, 6.22],
+    },
+    showCamp2: true,
+  },
+  2: {
+    label: '7 Abr – 4 May 2026 (último mes)',
+    hint:  'Mostrando datos del período 7 de abril al 4 de mayo de 2026',
+    note:  'Estás viendo solo el <strong>último mes de actividad</strong> (7 Abr – 4 May 2026). En este período la "Campaña creada por Google" estaba detenida, por eso solo se muestra MB-Vajilla-Search.',
+    kpi: {
+      clicks:  { val:'835',     sub:'Clicks en el período' },
+      impr:    { val:'7,432',   sub:'Impresiones' },
+      ctr:     { val:'11.24%',  sub:'CTR — tasa de clics' },
+      conv:    { val:'50',      sub:'Conversiones (5.99%)' },
+      cost:    { val:'$224K',   sub:'ARS 224,249' },
+      cpa:     { val:'$4,485',  sub:'ARS por conversión' },
+    },
+    camp: {
+      labels:      ['MB-Vajilla-Search'],
+      clicks:      [835],
+      impressions: [7432],
+      conversions: [50],
+      cost:        [224249],
+      ctr:         [11.24],
+    },
+    showCamp2: false,
+  }
+};
+
+const GEO = {
+  labels:      ['Buenos Aires','Córdoba','Santa Fe','Mendoza','Entre Ríos','Río Negro','Salta','Chaco','Neuquén','Corrientes'],
+  clicks:      [2459,302,289,103,80,59,46,41,41,23],
+  conversions: [15,4,2,2,0,0,0,0,0,0],
+  ctr:         [5.84,7.96,6.70,6.96,10.40,7.23,7.29,7.31,7.50,7.44]
+};
+
+const KW = {
+  labels:      ['comprar vajillas\npara eventos','vajilla\nhostelería','vajilla\npara cocina','vajilla\nde fundición'],
+  conversions: [37.17,15.99,7.50,7.00],
+  clicks:      [552,979,1323,48],
+  ctr:         [7.90,10.66,4.07,14.16]
+};
+
+const NEG_KW = [
+  ['"once"',            'MB-Vajilla-Search',        'Grupo','Posible confusión con barrio Once de BsAs'],
+  ['[fabrica verbano]', 'MB-Vajilla-Search',        'Grupo','Competidor / marca ajena'],
+  ['[loza blanca por mayor]','MB-Vajilla-Search',   'Grupo','Producto distinto (loza blanca, no aleación)'],
+  ['gratuito',          'Campaña creada por Google','Grupo','Buscan cosas gratis — no son clientes'],
+  ['bateria',           'Campaña creada por Google','Grupo','Se refiere a baterías eléctricas, no vajilla'],
+  ['ruedas',            'Campaña creada por Google','Grupo','Industria automotriz, no gastronómica'],
+  ['metalurgica',       'Campaña creada por Google','Grupo','Industria metalúrgica, no vajilla'],
+  ['rezago de metales', 'Campaña creada por Google','Grupo','Venta de chatarra — no es el público'],
+  ['receta',            'Campaña creada por Google','Grupo','Buscan recetas de cocina, no vajilla'],
+  ['peltre',            'Campaña creada por Google','Grupo','Material distinto al que fabrica MB Vajilla'],
+  ['Rodados',           'Campaña creada por Google','Grupo','Industria de rodados/neumáticos'],
+  ['rezago de alumno',  'Campaña creada por Google','Grupo','Sin relación con el producto'],
+  ['metal',             'Campaña creada por Google','Grupo','Demasiado genérico — no refiere a vajilla'],
+  ['gratis',            'Campaña creada por Google','Grupo','Buscan cosas gratis — no son clientes'],
+  ['recetas',           'Campaña creada por Google','Grupo','Buscan recetas gastronómicas, no equipamiento'],
+  ['baterias',          'Campaña creada por Google','Grupo','Baterías eléctricas — no relacionado'],
+  ['duraluminio',       'Campaña creada por Google','Grupo','Material industrial, no vajilla gastronómica'],
+  ['metalurgicos',      'Campaña creada por Google','Grupo','Sector metalúrgico — no es el público'],
+  ['minorista',         'Campaña creada por Google','Campaña','MB Vajilla vende al por mayor, no al por menor'],
+  ['alquileres',        'Campaña creada por Google','Campaña','Buscan alquiler de vajilla, no compra'],
+  ['alquiler',          'Campaña creada por Google','Campaña','Buscan alquiler de vajilla, no compra'],
+  ['vidrio',            'Campaña creada por Google','Campaña','Material distinto (vidrio vs aleación térmica)'],
+  ['vidrios',           'Campaña creada por Google','Campaña','Material distinto (vidrio vs aleación térmica)'],
+];
+
+// ══ CHART DEFAULTS ══════════════════════════════════════════════════════════
+
+Chart.defaults.color       = '#94A3B8';
+Chart.defaults.borderColor = '#1E293B';
+Chart.defaults.font.family = "'Fira Sans', sans-serif";
+Chart.defaults.font.size   = 11;
+
+const C = {
+  green:'#22C55E', gA:'rgba(34,197,94,.18)',
+  blue:'#3B82F6',  bA:'rgba(59,130,246,.18)',
+  gray:'#475569',  gyA:'rgba(71,85,105,.22)',
+  orange:'#F59E0B',oA:'rgba(245,158,11,.18)',
+};
+
+const baseOpts = {
+  responsive:true, maintainAspectRatio:false,
+  plugins:{
+    legend:{ labels:{ color:'#94A3B8', font:{size:11}, padding:14, boxWidth:12 } },
+    tooltip:{
+      backgroundColor:'#1E293B', titleColor:'#F8FAFC', bodyColor:'#94A3B8',
+      borderColor:'rgba(34,197,94,.25)', borderWidth:1, padding:12, cornerRadius:8,
+    }
+  },
+  scales:{
+    x:{ grid:{color:'#1E293B'}, ticks:{color:'#64748B'} },
+    y:{ grid:{color:'#1E293B'}, ticks:{color:'#64748B'} }
+  }
+};
+
+// ══ PERIOD STATE ════════════════════════════════════════════════════════════
+
+// Rangos exactos de los datos disponibles
+const AVAIL = {
+  all:       { from:'2020-01-01', to:'2026-05-05', key:1 },
+  lastmonth: { from:'2026-04-07', to:'2026-05-04', key:2 },
+};
+
+let currentPeriodKey = 1;
+
+// Preset rápido: carga el período seleccionado
+function applyPreset(preset, btn) {
+  const r = AVAIL[preset];
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadPeriod(r.key, null);
+}
+
+// Carga un período: actualiza badge, nota, KPIs y gráfico de campañas
+function loadPeriod(key, customNote) {
+  currentPeriodKey = key;
+  const pd = PERIODS[key];
+
+  // Badge de estado
+  const st = document.getElementById('periodStatus');
+  st.className = 'period-status ' + (key === 2 ? 'ps-lastmonth' : 'ps-alltime');
+  st.textContent = key === 2 ? '7 Abr – 4 May 2026' : 'Todo el historial';
+
+  // Nota informativa
+  document.getElementById('kpiPeriodLabel').textContent = pd.label;
+  document.getElementById('periodNoteText').innerHTML = customNote || pd.note;
+  document.getElementById('periodNote').style.borderColor =
+    customNote ? 'rgba(245,158,11,.35)' : 'rgba(59,130,246,.25)';
+  document.getElementById('periodNote').style.background =
+    customNote ? 'rgba(245,158,11,.06)' : 'rgba(59,130,246,.08)';
+  document.getElementById('periodNote').style.color =
+    customNote ? '#FCD34D' : '#93C5FD';
+
+  // KPIs con animación
+  const k = pd.kpi;
+  animateValue('valClicks', k.clicks.val); document.getElementById('subClicks').textContent = k.clicks.sub;
+  animateValue('valImpr',   k.impr.val);   document.getElementById('subImpr').textContent   = k.impr.sub;
+  animateValue('valCTR',    k.ctr.val);    document.getElementById('subCTR').textContent     = k.ctr.sub;
+  animateValue('valConv',   k.conv.val);   document.getElementById('subConv').textContent    = k.conv.sub;
+  animateValue('valCost',   k.cost.val);   document.getElementById('subCost').textContent    = k.cost.sub;
+  animateValue('valCPA',    k.cpa.val);    document.getElementById('subCPA').textContent     = k.cpa.sub;
+
+  // Rebuild campaign chart
+  const activeBtn = document.querySelector('#campFilters .fbtn.active');
+  const metric = activeBtn ? activeBtn.getAttribute('data-m') : 'clicks';
+  buildCampChart(metric);
+
+  // Leyenda 2da campaña
+  const leg2 = document.getElementById('campLegend2');
+  if (leg2) leg2.style.display = pd.showCamp2 ? '' : 'none';
+
+  // Mostrar/ocultar notas en secciones que solo tienen datos del historial completo
+  const isRecent = key === 2;
+  ['noteGeo','noteKW','notePhone'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('hidden', !isRecent);
+  });
+
+  // Actualizar gráficos de demografía según el período
+  if (typeof buildDemoCharts === 'function') buildDemoCharts(key);
+}
+
+
+function animateValue(id, val) {
+  const el = document.getElementById(id);
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(6px)';
+  setTimeout(() => {
+    el.textContent = val;
+    el.style.transition = 'opacity 260ms ease, transform 260ms ease';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, 60);
+}
+
+
+// ══ INFO TOGGLES ════════════════════════════════════════════════════════════
+
+function toggleInfo(btn, boxId) {
+  const box = document.getElementById(boxId);
+  const isOpen = box.classList.contains('visible');
+  // close all
+  document.querySelectorAll('.info-box').forEach(b => b.classList.remove('visible'));
+  document.querySelectorAll('.info-btn').forEach(b => b.classList.remove('open'));
+  if (!isOpen) {
+    box.classList.add('visible');
+    btn.classList.add('open');
+  }
+}
+
+// ══ CAMPAIGN CHART ══════════════════════════════════════════════════════════
+
+let campChart;
+
+const campMeta = {
+  clicks:      { label:'Clicks (personas que entraron)', fmt: v => v.toLocaleString('es-AR') },
+  impressions: { label:'Impresiones (apariciones del anuncio)', fmt: v => v.toLocaleString('es-AR') },
+  conversions: { label:'Conversiones (clientes potenciales)', fmt: v => v.toLocaleString('es-AR') },
+  cost:        { label:'Costo ARS (dinero invertido)', fmt: v => 'ARS ' + v.toLocaleString('es-AR') },
+  ctr:         { label:'CTR % (de 100 que vieron, cuántos entraron)', fmt: v => v.toFixed(2)+'%' },
+};
+
+function buildCampChart(metric) {
+  const m = campMeta[metric];
+  const pd = PERIODS[currentPeriodKey];
+  const ctx = document.getElementById('chartCamp').getContext('2d');
+  if (campChart) campChart.destroy();
+
+  const bgs    = pd.camp.labels.map((_,i) => i===0 ? C.gA  : C.gyA);
+  const bords  = pd.camp.labels.map((_,i) => i===0 ? C.green : C.gray);
+
+  campChart = new Chart(ctx, {
+    type:'bar',
+    data:{
+      labels: pd.camp.labels,
+      datasets:[{
+        label: m.label,
+        data: pd.camp[metric],
+        backgroundColor: bgs,
+        borderColor: bords,
+        borderWidth:2, borderRadius:8,
+      }]
+    },
+    options:{
+      ...baseOpts,
+      plugins:{
+        ...baseOpts.plugins,
+        legend:{display:false},
+        tooltip:{
+          ...baseOpts.plugins.tooltip,
+          callbacks:{ label: ctx => '  ' + m.fmt(ctx.raw) }
+        }
+      }
+    }
+  });
+}
+
+function setCampM(metric, btn) {
+  document.querySelectorAll('#campFilters .fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  btn.setAttribute('data-m', metric);
+  buildCampChart(metric);
+}
+
+// Inicializar filtros (el período se carga al final del script, después de definir todos los datos)
+document.querySelectorAll('#campFilters .fbtn')[0].setAttribute('data-m','clicks');
+
+// ══ EVOLUCIÓN MENSUAL ════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartEvol').getContext('2d'), {
+  type: 'line',
+  data: {
+    labels: ['Jul 2025','Ago 2025','Sep 2025','Oct 2025','Nov 2025','Dic 2025',
+             'Ene 2026','Feb 2026','Mar 2026','Abr 2026','May 2026'],
+    datasets: [{
+      label: 'Impresiones mensuales',
+      data: [311, 1331, 2078, 1285, 2708, 2575, 3733, 960, 4709, 4380, 398],
+      borderColor: C.green,
+      backgroundColor: 'rgba(34,197,94,.08)',
+      borderWidth: 2.5,
+      pointBackgroundColor: C.green,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      tension: 0.35,
+      fill: true,
+    }]
+  },
+  options: {
+    ...baseOpts,
+    scales: {
+      x: { grid:{ color:'#1E293B' }, ticks:{ color:'#94A3B8' } },
+      y: { grid:{ color:'#1E293B' }, ticks:{ color:'#94A3B8', callback: v => v.toLocaleString('es-AR') } }
+    },
+    plugins: {
+      ...baseOpts.plugins,
+      legend: { display: false },
+      tooltip: {
+        ...baseOpts.plugins.tooltip,
+        callbacks: {
+          label: ctx => `  ${ctx.raw.toLocaleString('es-AR')} apariciones del anuncio`,
+          afterLabel: ctx => {
+            const prev = ctx.dataIndex > 0 ? ctx.dataset.data[ctx.dataIndex - 1] : null;
+            if (prev && prev > 0) {
+              const pct = (((ctx.raw - prev) / prev) * 100).toFixed(0);
+              return `  vs mes anterior: ${pct > 0 ? '+' : ''}${pct}%`;
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+// ══ DEMOGRAPHICS ════════════════════════════════════════════════════════════
+
+const DEMO = {
+  1: {
+    age: [4.21, 17.32, 22.09, 26.13, 17.50, 13.00],
+    sex: [56.24, 43.92],
+  },
+  2: {
+    age: [4.31, 15.95, 19.76, 28.84, 17.23, 14.14],
+    sex: [55.01, 44.99],
+  }
+};
+const AGE_LABELS = ['18–24','25–34','35–44','45–54','55–64','+65'];
+
+let chartAge, chartSex;
+
+function buildDemoCharts(key) {
+  const d = DEMO[key] || DEMO[2];
+  const ctx1 = document.getElementById('chartAge').getContext('2d');
+  const ctx2 = document.getElementById('chartSex').getContext('2d');
+  if (chartAge) chartAge.destroy();
+  if (chartSex)  chartSex.destroy();
+
+  chartAge = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: AGE_LABELS,
+      datasets: [{
+        label: '% de impresiones',
+        data: d.age,
+        backgroundColor: d.age.map((v,i) => i===3 ? C.gA : 'rgba(59,130,246,.15)'),
+        borderColor:      d.age.map((v,i) => i===3 ? C.green : C.blue),
+        borderWidth: 2, borderRadius: 6,
+      }]
+    },
+    options: {
+      ...baseOpts, indexAxis: 'y',
+      scales: {
+        x: { grid:{color:'#1E293B'}, ticks:{color:'#64748B', callback: v => v+'%'} },
+        y: { grid:{color:'#1E293B'}, ticks:{color:'#F8FAFC'} }
+      },
+      plugins: {
+        ...baseOpts.plugins,
+        legend: { display: false },
+        tooltip: {
+          ...baseOpts.plugins.tooltip,
+          callbacks: { label: ctx => `  ${ctx.raw.toFixed(2)}% del total conocido` }
+        }
+      }
+    }
+  });
+
+  chartSex = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      labels: ['Mujeres','Hombres'],
+      datasets: [{ data: d.sex, backgroundColor:[C.gA,C.bA], borderColor:[C.green,C.blue], borderWidth:2 }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'65%',
+      plugins: {
+        legend: { display:false },
+        tooltip: {
+          backgroundColor:'#1E293B', titleColor:'#F8FAFC', bodyColor:'#94A3B8',
+          borderColor:'rgba(34,197,94,.25)', borderWidth:1, padding:10, cornerRadius:8,
+          callbacks: { label: ctx => `  ${ctx.label}: ${ctx.raw.toFixed(1)}%` }
+        }
+      }
+    }
+  });
+}
+
+buildDemoCharts(1);
+
+// ══ TIMING & DEVICES ════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartHours').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+    datasets: [{
+      label: 'Impresiones',
+      data: [34,21,10,10,9,14,25,49,198,319,437,537,482,432,308,196,179,164,101,109,82,49,48,34],
+      backgroundColor: (ctx) => {
+        const v = ctx.dataIndex;
+        if (v >= 9 && v <= 12) return C.gA;
+        if (v >= 8 && v <= 17) return 'rgba(59,130,246,.15)';
+        return 'rgba(71,85,105,.2)';
+      },
+      borderColor: (ctx) => {
+        const v = ctx.dataIndex;
+        if (v >= 9 && v <= 12) return C.green;
+        if (v >= 8 && v <= 17) return C.blue;
+        return C.gray;
+      },
+      borderWidth: 2, borderRadius: 4,
+    }]
+  },
+  options: {
+    ...baseOpts,
+    scales: {
+      x: { grid:{color:'#1E293B'}, ticks:{color:'#94A3B8'} },
+      y: { grid:{color:'#1E293B'}, ticks:{color:'#94A3B8'} }
+    },
+    plugins: {
+      ...baseOpts.plugins,
+      legend: { display:false },
+      tooltip: {
+        ...baseOpts.plugins.tooltip,
+        callbacks: {
+          title: ctx => `${ctx[0].label}:00 hs`,
+          label: ctx => `  ${ctx.raw.toLocaleString('es-AR')} impresiones`,
+        }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartDays').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+    datasets: [{
+      label: 'Impresiones',
+      data: [250,784,482,604,653,595,479],
+      backgroundColor: [C.gyA,C.gA,C.bA,C.bA,C.bA,C.bA,C.gyA],
+      borderColor:     [C.gray,C.green,C.blue,C.blue,C.blue,C.blue,C.gray],
+      borderWidth: 2, borderRadius: 6,
+    }]
+  },
+  options: {
+    ...baseOpts,
+    scales: {
+      x: { grid:{color:'#1E293B'}, ticks:{color:'#94A3B8'} },
+      y: { grid:{color:'#1E293B'}, ticks:{color:'#94A3B8'} }
+    },
+    plugins: { ...baseOpts.plugins, legend:{display:false} }
+  }
+});
+
+new Chart(document.getElementById('chartDevices').getContext('2d'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Celular (18 conv)','Computadora (0 conv)'],
+    datasets: [{ data:[235,27], backgroundColor:[C.gA,C.gyA], borderColor:[C.green,C.gray], borderWidth:2 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, cutout:'65%',
+    plugins: {
+      legend:{ display:false },
+      tooltip: {
+        backgroundColor:'#1E293B', titleColor:'#F8FAFC', bodyColor:'#94A3B8',
+        borderColor:'rgba(34,197,94,.25)', borderWidth:1, padding:10, cornerRadius:8,
+        callbacks: { label: ctx => `  ${ctx.label}: ${ctx.raw} clicks` }
+      }
+    }
+  }
+});
+
+// ══ AD GROUPS CHART ═════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartAG').getContext('2d'), {
+  type:'bar',
+  data:{
+    labels:['Vajilla Mayorista','Bazar Gastronomico','Platos Para Restaurante'],
+    datasets:[
+      { label:'Clientes potenciales', data:[28,18,4], backgroundColor:C.gA, borderColor:C.green, borderWidth:2, borderRadius:6 },
+      { label:'Clicks',               data:[488,259,88], backgroundColor:C.bA, borderColor:C.blue, borderWidth:2, borderRadius:6 }
+    ]
+  },
+  options:{
+    ...baseOpts, indexAxis:'y',
+    scales:{
+      x:{ grid:{color:'#1E293B'}, ticks:{color:'#64748B'} },
+      y:{ grid:{color:'#1E293B'}, ticks:{color:'#F8FAFC'} }
+    }
+  }
+});
+
+// ══ GEO CHART ═══════════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartGeo').getContext('2d'), {
+  type:'bar',
+  data:{
+    labels: GEO.labels,
+    datasets:[
+      { label:'Clicks (entradas al sitio)', data:GEO.clicks, backgroundColor:C.bA, borderColor:C.blue, borderWidth:2, borderRadius:6, yAxisID:'y' },
+      { label:'Clientes potenciales',       data:GEO.conversions, backgroundColor:C.gA, borderColor:C.green, borderWidth:2, borderRadius:6, yAxisID:'y1' }
+    ]
+  },
+  options:{
+    ...baseOpts,
+    scales:{
+      x:{ grid:{color:'#1E293B'}, ticks:{color:'#94A3B8', maxRotation:30} },
+      y:{  type:'linear', position:'left',  grid:{color:'#1E293B'},           ticks:{color:'#60A5FA'}, title:{display:true,text:'Clicks',color:'#60A5FA',font:{size:11}} },
+      y1:{ type:'linear', position:'right', grid:{drawOnChartArea:false},     ticks:{color:'#22C55E'}, title:{display:true,text:'Clientes potenciales',color:'#22C55E',font:{size:11}} }
+    }
+  }
+});
+
+// ══ KEYWORDS CHART ══════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartKW').getContext('2d'), {
+  type:'bar',
+  data:{
+    labels: KW.labels,
+    datasets:[
+      { label:'Clientes potenciales', data:KW.conversions, backgroundColor:C.gA, borderColor:C.green, borderWidth:2, borderRadius:6, yAxisID:'y' },
+      { type:'line', label:'% de clics (CTR)', data:KW.ctr, borderColor:C.orange, backgroundColor:C.oA, borderWidth:2, pointBackgroundColor:C.orange, pointRadius:5, tension:0.3, yAxisID:'y1' }
+    ]
+  },
+  options:{
+    ...baseOpts, indexAxis:'y',
+    scales:{
+      x:{ grid:{color:'#1E293B'}, ticks:{color:'#64748B'} },
+      y:{ grid:{color:'#1E293B'}, ticks:{color:'#F8FAFC'} },
+      y1:{ type:'linear', position:'right', grid:{drawOnChartArea:false}, ticks:{color:'#FBBF24', callback: v => v+'%'} }
+    },
+    plugins:{
+      ...baseOpts.plugins,
+      tooltip:{
+        ...baseOpts.plugins.tooltip,
+        callbacks:{
+          afterLabel:(ctx) => {
+            if(ctx.datasetIndex===0){
+              const i=ctx.dataIndex;
+              return `  Clicks recibidos: ${KW.clicks[i].toLocaleString('es-AR')}  |  CTR: ${KW.ctr[i]}%`;
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+// ══ PHONE CHART ═════════════════════════════════════════════════════════════
+
+new Chart(document.getElementById('chartPhone').getContext('2d'), {
+  type:'doughnut',
+  data:{
+    labels:['Convirtieron en cliente (8)','No convirtieron (346)'],
+    datasets:[{
+      data:[8,346],
+      backgroundColor:[C.gA, C.gyA],
+      borderColor:[C.green, C.gray],
+      borderWidth:2,
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, cutout:'68%',
+    plugins:{
+      legend:{ position:'bottom', labels:{ color:'#94A3B8', font:{size:10}, padding:10, boxWidth:10 } },
+      tooltip:{
+        backgroundColor:'#1E293B', titleColor:'#F8FAFC', bodyColor:'#94A3B8',
+        borderColor:'rgba(34,197,94,.25)', borderWidth:1, padding:10, cornerRadius:8,
+        callbacks:{ label: ctx => `  ${ctx.label}: ${ctx.raw} llamadas` }
+      }
+    }
+  }
+});
+
+// ══ NEGATIVE KEYWORDS TABLE ══════════════════════════════════════════════
+
+const tbody = document.getElementById('negTbody');
+NEG_KW.forEach(([kw, camp, nivel, razon]) => {
+  const tr = document.createElement('tr');
+  const lc = nivel==='Campaña' ? '#60A5FA' : '#A78BFA';
+  tr.innerHTML = `
+    <td style="font-family:'Fira Code',monospace;font-size:.75rem;color:#F87171;">${kw}</td>
+    <td style="font-size:.75rem;color:var(--muted);max-width:180px;">${camp}</td>
+    <td><span class="sb" style="background:${lc}15;color:${lc};font-size:.6rem;">${nivel}</span></td>
+    <td style="font-size:.75rem;color:var(--muted);">${razon}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ══ SCROLL FADE-IN ════════════════════════════════════════════════════════
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold:0.07 });
+
+document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+// ══ INICIALIZACIÓN FINAL (después de todos los datos y gráficos) ══════════
+loadPeriod(1, null);
+
+// ══ POWERED BY MFLOWSUITE ═══════════════════════════════════════════════════
+setTimeout(function() {
+  var BRAND='MflowSuite', LS=28, HD=290, FHD=680, SQD=480, LSQ=500, ID=650, THR=0.2;
+  var scene=document.getElementById('hl-pw-scene'),
+      row=document.getElementById('hl-pw-row'),
+      charsEl=document.getElementById('hl-pw-chars'),
+      slotEl=document.getElementById('hl-pw-slot'),
+      logo=document.getElementById('hl-pw-logo');
+  if(!scene||!row||!charsEl||!slotEl||!logo) return;
+  var spans=[];
+  for(var i=0;i<BRAND.length;i++){
+    var s=document.createElement('span');
+    s.className='pw-ch'; s.textContent=BRAND[i];
+    s.style.color='rgba(255,255,255,.55)'; s.style.fontWeight='600';
+    charsEl.appendChild(s); spans.push(s);
+  }
+  var lerp=function(a,b,t){return a+(b-a)*t;};
+  var clamp=function(v,a,b){return Math.max(a,Math.min(b,v));};
+  var arc=function(t,h){return 4*h*t*(1-t);};
+  function spring(t){
+    if(t<.15){var r=t/.15; return[lerp(1,1.35,r),lerp(1,.55,r)];}
+    if(t<.40){var r=(t-.15)/.25; return[lerp(1.35,.88,r),lerp(.55,1.22,r)];}
+    if(t<.70){var r=(t-.40)/.30; return[lerp(.88,1.04,r),lerp(1.22,.96,r)];}
+    var r=(t-.70)/.30; return[lerp(1.04,1,r),lerp(.96,1,r)];
+  }
+  function air(t){
+    if(t<.45) return[lerp(1,.84,t/.45),lerp(1,1.2,t/.45)];
+    if(t<.82) return[.84,1.2];
+    var r=(t-.82)/.18; return[lerp(.84,1.28,r),lerp(1.2,.68,r)];
+  }
+  function ctr(el){
+    var er=el.getBoundingClientRect(),sr=scene.getBoundingClientRect();
+    return{x:er.left-sr.left+er.width/2,y:er.top-sr.top+er.height/2};
+  }
+  function mv(cx,cy,sx,sy,rot,a){
+    logo.style.transform='translate('+(cx-LS/2)+'px,'+(cy-LS/2)+'px) rotate('+rot+'rad) scale('+sx+','+sy+')';
+    logo.style.opacity=a;
+  }
+  var phase='intro',t0=null,idx=0,hop=null,done=false;
+  var lpos=[],spos=null;
+  var lsq=spans.map(function(){return{at:-1};});
+  var lsqAt=-1,lsX=1,lsY=1;
+  function uLS(now){
+    for(var i=0;i<spans.length;i++){
+      if(lsq[i].at<0) continue;
+      var t=clamp((now-lsq[i].at)/SQD,0,1),res=spring(t);
+      spans[i].style.transform='scaleX('+res[0]+') scaleY('+res[1]+')';
+      spans[i].style.color=t<.28?'#6fa8ff':'rgba(255,255,255,.55)';
+      if(t>=1){lsq[i].at=-1;spans[i].style.transform='';spans[i].style.color='';}
+    }
+  }
+  function uLogo(now){
+    if(lsqAt<0) return;
+    var t=clamp((now-lsqAt)/LSQ,0,1),res=spring(t);
+    lsX=res[0];lsY=res[1];
+    if(t>=1){lsqAt=-1;lsX=lsY=1;}
+  }
+  function tLogo(now){lsqAt=now;lsX=1.3;lsY=0.62;}
+  function sh(from,to,h,dur,now){hop={from:{x:from.x,y:from.y},to:{x:to.x,y:to.y},h:h,dur:dur,t0:now};}
+  function frame(now){
+    if(!t0) t0=now;
+    uLS(now);uLogo(now);
+    if(phase==='intro'){
+      var t=clamp((now-t0)/ID,0,1);
+      row.style.opacity=t; mv(-200,0,1,1,0,0);
+      if(t>=1){
+        lpos=spans.map(ctr);spos=ctr(slotEl);
+        var li=spans.length-1;
+        phase='hop';idx=li;t0=now;
+        sh({x:lpos[li].x+55,y:spos.y},{x:lpos[li].x,y:spos.y},40,HD,now);
+      }
+    } else if(phase==='hop'){
+      if(hop){
+        var ht=clamp((now-hop.t0)/hop.dur,0,1);
+        var lx=lerp(hop.from.x,hop.to.x,ht);
+        var ly=lerp(hop.from.y,hop.to.y,ht)-arc(ht,hop.h);
+        var rot=(ht<0.5?1:-1)*Math.sin(Math.PI*ht)*0.22;
+        var sh2=lsqAt>=0?[lsX,lsY]:air(ht);
+        mv(lx,ly,sh2[0],sh2[1],rot,1);
+        if(ht>=1){
+          lsq[idx].at=now;tLogo(now);
+          var fx=hop.to.x,fy=hop.to.y;idx--;
+          if(idx>=0){sh({x:fx,y:fy},{x:lpos[idx].x,y:spos.y},40,HD,now);}
+          else{phase='final';t0=now;sh({x:fx,y:fy},{x:spos.x,y:spos.y},70,FHD,now);}
+        }
+      }
+    } else if(phase==='final'){
+      if(hop){
+        var ht=clamp((now-hop.t0)/hop.dur,0,1);
+        var lx=lerp(hop.from.x,hop.to.x,ht);
+        var ly=lerp(hop.from.y,hop.to.y,ht)-arc(ht,hop.h);
+        var rot=(ht<0.5?1:-1)*Math.sin(Math.PI*ht)*0.18;
+        var sh2=lsqAt>=0?[lsX,lsY]:air(ht);
+        mv(lx,ly,sh2[0],sh2[1],rot,1);
+        if(ht>=1){phase='done';tLogo(now);mv(spos.x,spos.y,lsX,lsY,0,1);logo.classList.add('pw-glow');}
+      }
+    } else if(phase==='done'){
+      mv(spos.x,spos.y,lsX,lsY,0,1);
+      if(!done){done=true;return;}
+      return;
+    }
+    requestAnimationFrame(frame);
+  }
+  var started=false;
+  function start(){if(started)return;started=true;row.style.opacity='0';mv(-200,0,1,1,0,0);requestAnimationFrame(frame);}
+  function init(){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){start();obs.disconnect();}});
+    },{threshold:THR});
+    obs.observe(scene);
+  }
+  if(logo.complete){init();}else{logo.onload=init;logo.onerror=init;setTimeout(init,400);}
+},100);
+
+</script>
+</body>
+</html>
