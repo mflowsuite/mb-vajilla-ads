@@ -863,12 +863,16 @@ function mbv_panel_shortcode() {
                       <input type="text" id="st-es-${i}" value="${_esc(s.label_es)}">
                     </div>
                     <div class="field-group" style="margin-bottom:0">
-                      <label><span style="color:#1a6ebf">🇺🇸 EN</span> — Label</label>
+                      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                        <label style="margin-bottom:0"><span style="color:#1a6ebf">🇺🇸 EN</span> — Label</label>
+                        <button class="translate-btn stat-xlat-btn" data-i="${i}" style="font-size:.7rem">✨</button>
+                      </div>
                       <input type="text" id="st-en-${i}" value="${_esc(s.label_en)}">
                     </div>
                   </div>`).join('')}
               </div>
-              <div style="text-align:right;margin-top:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+                <button class="translate-btn" id="btn-xlat-all-stats" style="font-size:.8rem;padding:6px 14px">✨ Traducir todas las etiquetas EN</button>
                 <button class="btn-primary" id="btn-save-stats">💾 Guardar estadísticas</button>
               </div>
             </div>
@@ -938,7 +942,38 @@ function mbv_panel_shortcode() {
     }
 
     function _wireContenido() {
-        // Stats
+        // Stats — traducir etiqueta individual
+        document.querySelectorAll('.stat-xlat-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const i = btn.dataset.i;
+                const esVal = document.getElementById(`st-es-${i}`)?.value.trim();
+                if (!esVal) { toast('Escribí la etiqueta en español primero.', 'error'); return; }
+                btn.textContent = '...'; btn.disabled = true;
+                const translated = await autoTranslate(esVal);
+                if (translated) {
+                    const enEl = document.getElementById(`st-en-${i}`);
+                    if (enEl) enEl.value = translated;
+                    toast('Traducción lista.', 'success');
+                }
+                btn.textContent = '✨'; btn.disabled = false;
+            });
+        });
+
+        // Stats — traducir todas las etiquetas EN de una vez
+        document.getElementById('btn-xlat-all-stats').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-xlat-all-stats');
+            btn.textContent = '✨ Traduciendo...'; btn.disabled = true;
+            const translations = await Promise.all([0,1,2,3].map(i =>
+                autoTranslate(document.getElementById(`st-es-${i}`)?.value.trim() || '')
+            ));
+            translations.forEach((t, i) => {
+                if (t) { const el = document.getElementById(`st-en-${i}`); if (el) el.value = t; }
+            });
+            btn.textContent = '✨ Traducir todas las etiquetas EN'; btn.disabled = false;
+            toast('Etiquetas traducidas. Revisá antes de guardar.', 'success');
+        });
+
+        // Stats save
         document.getElementById('btn-save-stats').addEventListener('click', _saveStats);
 
         // Add FAQ toggle
