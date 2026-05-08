@@ -413,11 +413,11 @@ function mbv_panel_shortcode() {
         const el = document.getElementById('section-productos');
         el.innerHTML = '<div class="loading">Cargando productos...</div>';
         const [cats, prods] = await Promise.all([
-            wpGet('wp/v2/categoria_de_producto?per_page=50'),
+            wpGet('wp/v2/categoria_producto?per_page=50&lang=es'),
             wpGet('wp/v2/producto?lang=es&per_page=100&acf_format=standard'),
         ]);
         if (!cats || !prods) return;
-        _productosState.categories = Array.isArray(cats) ? cats.filter(c => !c.lang || c.lang === 'es') : [];
+        _productosState.categories = Array.isArray(cats) ? cats : [];
         _productosState.list = Array.isArray(prods) ? prods : [];
         _productosState.filter = 'all';
         renderProductosList(el);
@@ -427,7 +427,7 @@ function mbv_panel_shortcode() {
         const { list, categories, filter } = _productosState;
         const filtered = filter === 'all'
             ? list
-            : list.filter(p => Array.isArray(p.categoria_de_producto) && p.categoria_de_producto.includes(parseInt(filter)));
+            : list.filter(p => Array.isArray(p.categoria_producto) && p.categoria_producto.includes(parseInt(filter)));
 
         const chips = [{ id: 'all', name: 'Todos' }, ...categories]
             .map(c => `<button class="filter-chip${filter == c.id ? ' active' : ''}" data-cat="${c.id}">${c.name}</button>`)
@@ -519,7 +519,7 @@ function mbv_panel_shortcode() {
         const cats  = _productosState.categories;
 
         const catOptions = cats.map(c =>
-            `<option value="${c.id}"${(esData.categoria_de_producto || []).includes(c.id) ? ' selected' : ''}>${c.name}</option>`
+            `<option value="${c.id}"${(esData.categoria_producto || []).includes(c.id) ? ' selected' : ''}>${c.name}</option>`
         ).join('');
 
         // Build 5 foto slots
@@ -750,7 +750,7 @@ function mbv_panel_shortcode() {
             lang:   'es',
             acf: { ...acfShared, descripcion: document.getElementById('f-desc-es')?.value.trim() || '' },
         };
-        if (catId) esData.categoria_de_producto = [catId];
+        if (catId) esData.categoria_producto = [catId];
 
         const enData = {
             title:   document.getElementById('f-nombre-en')?.value.trim(),
