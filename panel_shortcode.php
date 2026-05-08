@@ -461,7 +461,13 @@ function mbv_panel_shortcode() {
         el.innerHTML = `
             <div class="section-header">
               <h2 class="section-title">Productos</h2>
-              <button class="btn-primary" id="btn-new-producto">+ Nuevo producto</button>
+              <div style="display:flex;gap:8px">
+                <button class="btn-secondary btn-sm" id="btn-manage-cats" style="display:flex;align-items:center;gap:6px">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                  Categorías
+                </button>
+                <button class="btn-primary" id="btn-new-producto">+ Nuevo producto</button>
+              </div>
             </div>
             <div class="filter-bar">${chips}</div>
             <div class="productos-grid">${cards}</div>`;
@@ -475,6 +481,10 @@ function mbv_panel_shortcode() {
             );
         });
         document.getElementById('btn-new-producto')?.addEventListener('click', () => renderProductoForm(el, null, null));
+        document.getElementById('btn-manage-cats')?.addEventListener('click', () => {
+            const sec = document.getElementById('section-productos');
+            renderCategorias(sec);
+        });
     }
 
     // =====================================================================
@@ -806,6 +816,143 @@ function mbv_panel_shortcode() {
         ]);
         toast('Producto eliminado.', 'success');
         setTimeout(() => renderProductos(), 800);
+    }
+
+    // =====================================================================
+    // CATEGORÍAS
+    // =====================================================================
+    async function renderCategorias(el) {
+        el.innerHTML = '<div class="loading">Cargando categorías...</div>';
+        const cats = await wpGet('wp/v2/categoria_producto?per_page=100&lang=es');
+        if (!cats) return;
+
+        el.innerHTML = `
+            <div class="section-header">
+              <button class="btn-secondary btn-sm" id="btn-back-cats">← Volver a Productos</button>
+              <h2 class="section-title">Categorías</h2>
+              <div></div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Nueva categoría</div>
+              <div style="display:flex;gap:12px;align-items:flex-end">
+                <div class="field-group" style="flex:1;margin-bottom:0">
+                  <label>Nombre</label>
+                  <input type="text" id="new-cat-name" placeholder="Ej: Tazas">
+                </div>
+                <button class="btn-primary" id="btn-add-cat" style="white-space:nowrap">+ Agregar</button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">Categorías (${cats.length})</div>
+              <div id="cats-list">
+                ${cats.length
+                  ? cats.map(c => catRowHtml(c)).join('')
+                  : '<p style="color:var(--gray-400);padding:8px 0">No hay categorías todavía.</p>'
+                }
+              </div>
+            </div>`;
+
+        document.getElementById('btn-back-cats').addEventListener('click', () => renderProductos());
+        document.getElementById('btn-add-cat').addEventListener('click', () => addCategoria(el));
+        document.getElementById('new-cat-name').addEventListener('keydown', e => {
+            if (e.key === 'Enter') addCategoria(el);
+        });
+        wireCatRows(el);
+    }
+
+    function catRowHtml(c) {
+        const count = c.count || 0;
+        return `
+            <div class="cat-row" data-id="${c.id}" data-name="${c.name.replace(/"/g,'&quot;')}"
+                 style="display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--gray-100)">
+              <span class="cat-name" style="flex:1;font-weight:600;color:var(--gray-900)">${c.name}</span>
+              <span style="font-size:.8rem;color:var(--gray-400);white-space:nowrap">${count} producto${count !== 1 ? 's' : ''}</span>
+              <button class="btn-secondary btn-sm btn-edit-cat" style="white-space:nowrap">Renombrar</button>
+              <button class="btn-danger btn-sm btn-del-cat" style="white-space:nowrap">Eliminar</button>
+            </div>`;
+    }
+
+    function wireCatRows(el) {
+        // Renombrar
+        el.querySelectorAll('.btn-edit-cat').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('.cat-row');
+                const catId = parseInt(row.dataset.id);
+                const currentName = row.querySelector('.cat-name').textContent;
+                const count = row.querySelector('span:nth-child(2)').textContent;
+                row.innerHTML = `
+                    <input type="text" class="cat-edit-input" value="${currentName}"
+                           style="flex:1;padding:8px 12px;border:1.5px solid var(--red);border-radius:var(--radius);font-size:.9375rem;min-width:0">
+                    <span style="font-size:.8rem;color:var(--gray-400);white-space:nowrap">${count}</span>
+                    <button class="btn-primary btn-sm btn-save-cat">Guardar</button>
+                    <button class="btn-secondary btn-sm btn-cancel-edit">Cancelar</button>`;
+                row.style.flexWrap = 'wrap';
+                row.querySelector('.cat-edit-input').focus();
+
+                row.querySelector('.btn-save-cat').addEventListener('click', async () => {
+                    const newName = row.querySelector('.cat-edit-input').value.trim();
+                    if (!newName) return;
+                    row.querySelector('.btn-save-cat').textContent = 'Guardando...';
+                    row.querySelector('.btn-save-cat').disabled = true;
+                    await wpPost('wp/v2/categoria_producto/' + catId, { name: newName });
+                    toast('Categoría actualizada.', 'success');
+                    // Refresh state
+                    _productosState.categories = await wpGet('wp/v2/categoria_producto?per_page=100&lang=es') || _productosState.categories;
+                    renderCategorias(document.getElementById('section-productos'));
+                });
+
+                row.querySelector('.btn-cancel-edit').addEventListener('click', () => {
+                    renderCategorias(document.getElementById('section-productos'));
+                });
+
+                row.querySelector('.cat-edit-input').addEventListener('keydown', e => {
+                    if (e.key === 'Enter') row.querySelector('.btn-save-cat').click();
+                    if (e.key === 'Escape') row.querySelector('.btn-cancel-edit').click();
+                });
+            });
+        });
+
+        // Eliminar
+        el.querySelectorAll('.btn-del-cat').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const row = btn.closest('.cat-row');
+                const catId = parseInt(row.dataset.id);
+                const catName = row.querySelector('.cat-name').textContent;
+                const count = parseInt(row.querySelector('span:nth-child(2)').textContent) || 0;
+
+                let msg = `¿Eliminar la categoría "${catName}"?`;
+                if (count > 0) msg += `\n\nTiene ${count} producto(s) asignado(s). Los productos quedarán sin categoría.`;
+                if (!confirm(msg)) return;
+
+                btn.textContent = 'Eliminando...'; btn.disabled = true;
+                await wpDelete('wp/v2/categoria_producto/' + catId + '?force=true');
+                toast('Categoría eliminada.', 'success');
+                _productosState.categories = await wpGet('wp/v2/categoria_producto?per_page=100&lang=es') || _productosState.categories;
+                renderCategorias(document.getElementById('section-productos'));
+            });
+        });
+    }
+
+    async function addCategoria(el) {
+        const input = document.getElementById('new-cat-name');
+        const name = input?.value.trim();
+        if (!name) { toast('Escribí un nombre para la categoría.', 'error'); input?.focus(); return; }
+
+        const btn = document.getElementById('btn-add-cat');
+        btn.textContent = 'Agregando...'; btn.disabled = true;
+
+        const result = await wpPost('wp/v2/categoria_producto', { name, lang: 'es' });
+        if (result?.id) {
+            toast(`Categoría "${name}" creada.`, 'success');
+            _productosState.categories = await wpGet('wp/v2/categoria_producto?per_page=100&lang=es') || _productosState.categories;
+            renderCategorias(el);
+        } else {
+            const msg = result?.message || 'Error al crear la categoría.';
+            toast(msg, 'error');
+            btn.textContent = '+ Agregar'; btn.disabled = false;
+        }
     }
 
     // =====================================================================
