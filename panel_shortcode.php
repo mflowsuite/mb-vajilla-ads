@@ -747,6 +747,7 @@ function mbv_panel_shortcode() {
             title:   document.getElementById('f-nombre-es')?.value.trim(),
             content: document.getElementById('f-desc-es')?.value.trim(),
             status: 'publish',
+            lang:   'es',
             acf: { ...acfShared, descripcion: document.getElementById('f-desc-es')?.value.trim() || '' },
         };
         if (catId) esData.categoria_de_producto = [catId];
@@ -755,16 +756,33 @@ function mbv_panel_shortcode() {
             title:   document.getElementById('f-nombre-en')?.value.trim(),
             content: document.getElementById('f-desc-en')?.value.trim(),
             status: 'publish',
+            lang:   'en',
             acf: { ...acfShared, descripcion: document.getElementById('f-desc-en')?.value.trim() || '' },
         };
 
         const esPath = esId ? 'wp/v2/producto/' + esId : 'wp/v2/producto';
         const enPath = enId ? 'wp/v2/producto/' + enId : 'wp/v2/producto';
 
-        const [esResult, enResult] = await Promise.all([
-            wpPost(esPath, esData),
-            wpPost(enPath, enData),
-        ]);
+        let esResult, enResult;
+
+        if (!esId && !enId) {
+            // Producto nuevo: crear en secuencia para vincular las traducciones en Polylang
+            esResult = await wpPost(esPath, esData);
+            if (esResult?.id) {
+                enData.translations = { es: esResult.id };
+            }
+            enResult = await wpPost(enPath, enData);
+            // Vincular el EN de vuelta en el post ES
+            if (esResult?.id && enResult?.id) {
+                await wpPost('wp/v2/producto/' + esResult.id, { translations: { en: enResult.id } });
+            }
+        } else {
+            // Edición: guardar en paralelo
+            [esResult, enResult] = await Promise.all([
+                wpPost(esPath, esData),
+                wpPost(enPath, enData),
+            ]);
+        }
 
         btn.textContent = '💾 Guardar todo'; btn.disabled = false;
 
