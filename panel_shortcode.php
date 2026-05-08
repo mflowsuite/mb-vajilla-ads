@@ -218,7 +218,7 @@ function mbv_panel_shortcode() {
             <ul class="sidebar-nav">
                 <li><a href="#dashboard" class="nav-link active" data-section="dashboard"><span class="nav-icon">&#9632;</span> Dashboard</a></li>
                 <li><a href="#productos" class="nav-link" data-section="productos"><span class="nav-icon">&#9633;</span> Productos</a></li>
-                <li><a class="nav-link nav-disabled"><span class="nav-icon">&#9632;</span> Contenido <span class="badge-soon">Pronto</span></a></li>
+                <li><a href="#contenido" class="nav-link" data-section="contenido"><span class="nav-icon">&#9632;</span> Contenido</a></li>
                 <li><a class="nav-link nav-disabled"><span class="nav-icon">&#9632;</span> Multimedia <span class="badge-soon">Pronto</span></a></li>
                 <li><a class="nav-link nav-disabled"><span class="nav-icon">&#9632;</span> Estadísticas <span class="badge-soon">Pronto</span></a></li>
             </ul>
@@ -228,6 +228,7 @@ function mbv_panel_shortcode() {
         <main class="main-content">
             <div id="section-dashboard"></div>
             <div id="section-productos" class="hidden"></div>
+            <div id="section-contenido" class="hidden"></div>
         </main>
     </div>
 
@@ -335,13 +336,14 @@ function mbv_panel_shortcode() {
         document.querySelectorAll('.nav-link').forEach(l =>
             l.classList.toggle('active', l.dataset.section === section)
         );
-        ['dashboard', 'productos'].forEach(s => {
+        ['dashboard', 'productos', 'contenido'].forEach(s => {
             const el = document.getElementById('section-' + s);
             if (el) el.classList.toggle('hidden', s !== section);
         });
         document.getElementById('sidebar')?.classList.remove('open');
         if (section === 'dashboard') renderDashboard();
         if (section === 'productos') renderProductos();
+        if (section === 'contenido') renderContenido();
     }
 
     // Hamburger toggle
@@ -816,6 +818,289 @@ function mbv_panel_shortcode() {
         ]);
         toast('Producto eliminado.', 'success');
         setTimeout(() => renderProductos(), 800);
+    }
+
+    // =====================================================================
+    // CONTENIDO DEL SITIO
+    // =====================================================================
+    let _contenidoState = { stats: [], faqs: [] };
+
+    function _esc(str) {
+        return String(str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    }
+
+    async function renderContenido() {
+        const el = document.getElementById('section-contenido');
+        el.innerHTML = '<div class="loading">Cargando contenido...</div>';
+        const [stats, faqs] = await Promise.all([
+            wpGet('mbv/v1/home-stats'),
+            wpGet('mbv/v1/faqs'),
+        ]);
+        if (!stats || !faqs) {
+            el.innerHTML = '<div class="loading" style="color:var(--red)">Error al cargar. Recargá la página.</div>';
+            return;
+        }
+        _contenidoState.stats = Array.isArray(stats) ? stats : [];
+        _contenidoState.faqs  = Array.isArray(faqs)  ? faqs  : [];
+
+        el.innerHTML = `
+            <p class="dashboard-greeting" style="font-size:1.125rem">Contenido del sitio</p>
+
+            <div class="form-section">
+              <div class="form-section-title">Las 4 cifras del home</div>
+              <p style="font-size:.8125rem;color:var(--gray-600);margin-bottom:20px">
+                Aparecen en la barra de estadísticas de la página principal y en la página de FAQs.
+              </p>
+              <div id="stats-rows">
+                ${_contenidoState.stats.map((s,i) => `
+                  <div style="display:grid;grid-template-columns:160px 1fr 1fr;gap:12px;margin-bottom:12px;align-items:end">
+                    <div class="field-group" style="margin-bottom:0">
+                      <label>Número ${i+1}</label>
+                      <input type="text" id="st-num-${i}" value="${_esc(s.number)}" placeholder="+8.400">
+                    </div>
+                    <div class="field-group" style="margin-bottom:0">
+                      <label><span style="color:var(--red)">🇦🇷 ES</span> — Etiqueta</label>
+                      <input type="text" id="st-es-${i}" value="${_esc(s.label_es)}">
+                    </div>
+                    <div class="field-group" style="margin-bottom:0">
+                      <label><span style="color:#1a6ebf">🇺🇸 EN</span> — Label</label>
+                      <input type="text" id="st-en-${i}" value="${_esc(s.label_en)}">
+                    </div>
+                  </div>`).join('')}
+              </div>
+              <div style="text-align:right;margin-top:16px">
+                <button class="btn-primary" id="btn-save-stats">💾 Guardar estadísticas</button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between">
+                <span id="faqs-count-label">Preguntas frecuentes (${_contenidoState.faqs.length})</span>
+                <button class="btn-primary btn-sm" id="btn-show-add-faq">+ Nueva pregunta</button>
+              </div>
+              <div id="faq-add-wrap" style="display:none;margin-top:16px;background:var(--gray-50);border-radius:var(--radius);padding:20px">
+                ${_faqFormHtml('new')}
+              </div>
+              <div id="faqs-list" style="margin-top:12px">${_renderFaqsHtml(_contenidoState.faqs)}</div>
+            </div>`;
+
+        _wireContenido();
+    }
+
+    function _faqFormHtml(prefix) {
+        return `
+            <div class="bilingual-grid" style="gap:16px;margin-bottom:12px">
+              <div>
+                <div class="lang-label lang-es" style="margin-bottom:8px">🇦🇷 Español</div>
+                <div class="field-group"><label>Pregunta</label>
+                  <input type="text" id="${prefix}-q-es" placeholder="¿...?"></div>
+                <div class="field-group"><label>Respuesta</label>
+                  <textarea id="${prefix}-a-es" rows="3"></textarea></div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+                  <span class="lang-label lang-en" style="margin-bottom:0">🇺🇸 English</span>
+                  <button class="translate-btn faq-xlat-btn" data-prefix="${prefix}">✨ Auto-traducir</button>
+                </div>
+                <div class="field-group"><label>Question</label>
+                  <input type="text" id="${prefix}-q-en" placeholder="...?"></div>
+                <div class="field-group"><label>Answer</label>
+                  <textarea id="${prefix}-a-en" rows="3"></textarea></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn-secondary btn-sm faq-cancel-btn">Cancelar</button>
+              <button class="btn-primary btn-sm faq-save-btn" data-prefix="${prefix}">💾 Guardar pregunta</button>
+            </div>`;
+    }
+
+    function _renderFaqsHtml(faqs) {
+        if (!faqs.length) return '<p style="color:var(--gray-400);padding:16px 0">No hay preguntas frecuentes todavía.</p>';
+        return faqs.map((f, i) => `
+            <div class="faq-item" data-i="${i}"
+                 style="border:1px solid var(--gray-200);border-radius:var(--radius);margin-bottom:8px;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:10px;padding:13px 16px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-weight:600;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${_esc(f.q_es)}</div>
+                  <div style="font-size:.8rem;color:var(--gray-400);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">${_esc(f.q_en)}</div>
+                </div>
+                <div style="display:flex;gap:4px;flex-shrink:0">
+                  <button class="btn-secondary btn-sm faq-up" ${i===0?'disabled':''} style="padding:5px 10px">↑</button>
+                  <button class="btn-secondary btn-sm faq-down" ${i===faqs.length-1?'disabled':''} style="padding:5px 10px">↓</button>
+                  <button class="btn-secondary btn-sm faq-edit-btn">Editar</button>
+                  <button class="btn-danger btn-sm faq-del-btn">✕</button>
+                </div>
+              </div>
+              <div class="faq-edit-form" style="display:none;padding:0 16px 16px;border-top:1px solid var(--gray-100)">
+                ${_faqFormHtml('edit-'+i)}
+              </div>
+            </div>`).join('');
+    }
+
+    function _wireContenido() {
+        // Stats
+        document.getElementById('btn-save-stats').addEventListener('click', _saveStats);
+
+        // Add FAQ toggle
+        document.getElementById('btn-show-add-faq').addEventListener('click', () => {
+            const w = document.getElementById('faq-add-wrap');
+            w.style.display = w.style.display === 'none' ? 'block' : 'none';
+        });
+        _wireFaqForm('faq-add-wrap', 'new', addFaqItem);
+
+        // FAQ list — delegated
+        document.getElementById('faqs-list').addEventListener('click', async (e) => {
+            const item = e.target.closest('.faq-item');
+            if (!item) return;
+            const i = parseInt(item.dataset.i);
+
+            if (e.target.classList.contains('faq-del-btn')) {
+                const q = _contenidoState.faqs[i]?.q_es || '';
+                if (!confirm(`¿Eliminar esta pregunta?\n"${q}"`)) return;
+                _contenidoState.faqs.splice(i, 1);
+                await _saveFaqs(); _refreshFaqsList();
+            }
+            if (e.target.classList.contains('faq-up') && i > 0) {
+                [_contenidoState.faqs[i-1], _contenidoState.faqs[i]] = [_contenidoState.faqs[i], _contenidoState.faqs[i-1]];
+                await _saveFaqs(); _refreshFaqsList();
+            }
+            if (e.target.classList.contains('faq-down') && i < _contenidoState.faqs.length - 1) {
+                [_contenidoState.faqs[i], _contenidoState.faqs[i+1]] = [_contenidoState.faqs[i+1], _contenidoState.faqs[i]];
+                await _saveFaqs(); _refreshFaqsList();
+            }
+            if (e.target.classList.contains('faq-edit-btn')) {
+                const form = item.querySelector('.faq-edit-form');
+                const opening = form.style.display === 'none';
+                document.querySelectorAll('.faq-edit-form').forEach(f => f.style.display = 'none');
+                if (opening) {
+                    form.style.display = 'block';
+                    const f = _contenidoState.faqs[i];
+                    const pfx = 'edit-'+i;
+                    _setFaqVals(pfx, f.q_es, f.a_es, f.q_en, f.a_en);
+                    _wireFaqForm(null, pfx, () => _updateFaqItem(i, pfx), form);
+                }
+            }
+        });
+    }
+
+    function _wireFaqForm(wrapId, prefix, saveCallback, formEl) {
+        const wrap = formEl || (wrapId ? document.getElementById(wrapId) : null);
+        if (!wrap) return;
+        wrap.querySelector('.faq-cancel-btn')?.addEventListener('click', () => {
+            if (wrapId) { document.getElementById(wrapId).style.display = 'none'; _clearFaqVals(prefix); }
+            else { wrap.style.display = 'none'; }
+        });
+        wrap.querySelector('.faq-xlat-btn')?.addEventListener('click', async (e) => {
+            const p = e.currentTarget.dataset.prefix;
+            const btn = e.currentTarget;
+            btn.textContent = 'Traduciendo...'; btn.disabled = true;
+            const [q, a] = await Promise.all([
+                autoTranslate(document.getElementById(`${p}-q-es`)?.value || ''),
+                autoTranslate(document.getElementById(`${p}-a-es`)?.value || ''),
+            ]);
+            if (q) { const el = document.getElementById(`${p}-q-en`); if (el) el.value = q; }
+            if (a) { const el = document.getElementById(`${p}-a-en`); if (el) el.value = a; }
+            btn.textContent = '✨ Auto-traducir'; btn.disabled = false;
+            toast('Traducción lista. Revisá antes de guardar.', 'success');
+        });
+        wrap.querySelector('.faq-save-btn')?.addEventListener('click', saveCallback);
+    }
+
+    function _getFaqVals(prefix) {
+        return {
+            q_es: document.getElementById(`${prefix}-q-es`)?.value.trim() || '',
+            a_es: document.getElementById(`${prefix}-a-es`)?.value.trim() || '',
+            q_en: document.getElementById(`${prefix}-q-en`)?.value.trim() || '',
+            a_en: document.getElementById(`${prefix}-a-en`)?.value.trim() || '',
+        };
+    }
+    function _setFaqVals(prefix, qes, aes, qen, aen) {
+        [['q-es',qes],['a-es',aes],['q-en',qen],['a-en',aen]].forEach(([k,v]) => {
+            const el = document.getElementById(`${prefix}-${k}`); if (el) el.value = v || '';
+        });
+    }
+    function _clearFaqVals(prefix) { _setFaqVals(prefix,'','','',''); }
+
+    async function _saveStats() {
+        const btn = document.getElementById('btn-save-stats');
+        btn.textContent = 'Guardando...'; btn.disabled = true;
+        const stats = [0,1,2,3].map(i => ({
+            number:   document.getElementById(`st-num-${i}`)?.value.trim() || '',
+            label_es: document.getElementById(`st-es-${i}`)?.value.trim() || '',
+            label_en: document.getElementById(`st-en-${i}`)?.value.trim() || '',
+        }));
+        const res = await wpPost('mbv/v1/home-stats', stats);
+        btn.textContent = '💾 Guardar estadísticas'; btn.disabled = false;
+        if (res?.success) { _contenidoState.stats = stats; toast('Estadísticas guardadas. Ya se ven en el home.', 'success'); }
+        else toast('Error al guardar.', 'error');
+    }
+
+    async function _saveFaqs() {
+        const res = await wpPost('mbv/v1/faqs', _contenidoState.faqs);
+        return res;
+    }
+
+    function _refreshFaqsList() {
+        const list = document.getElementById('faqs-list');
+        if (list) list.innerHTML = _renderFaqsHtml(_contenidoState.faqs);
+        const lbl = document.getElementById('faqs-count-label');
+        if (lbl) lbl.textContent = `Preguntas frecuentes (${_contenidoState.faqs.length})`;
+        // Re-attach delegated listener on new element
+        if (list) {
+            list.addEventListener('click', async (e) => {
+                const item = e.target.closest('.faq-item');
+                if (!item) return;
+                const i = parseInt(item.dataset.i);
+                if (e.target.classList.contains('faq-del-btn')) {
+                    const q = _contenidoState.faqs[i]?.q_es || '';
+                    if (!confirm(`¿Eliminar esta pregunta?\n"${q}"`)) return;
+                    _contenidoState.faqs.splice(i, 1);
+                    await _saveFaqs(); _refreshFaqsList();
+                }
+                if (e.target.classList.contains('faq-up') && i > 0) {
+                    [_contenidoState.faqs[i-1], _contenidoState.faqs[i]] = [_contenidoState.faqs[i], _contenidoState.faqs[i-1]];
+                    await _saveFaqs(); _refreshFaqsList();
+                }
+                if (e.target.classList.contains('faq-down') && i < _contenidoState.faqs.length - 1) {
+                    [_contenidoState.faqs[i], _contenidoState.faqs[i+1]] = [_contenidoState.faqs[i+1], _contenidoState.faqs[i]];
+                    await _saveFaqs(); _refreshFaqsList();
+                }
+                if (e.target.classList.contains('faq-edit-btn')) {
+                    const form = item.querySelector('.faq-edit-form');
+                    const opening = form.style.display === 'none';
+                    document.querySelectorAll('.faq-edit-form').forEach(f => f.style.display = 'none');
+                    if (opening) {
+                        form.style.display = 'block';
+                        const f = _contenidoState.faqs[i];
+                        const pfx = 'edit-'+i;
+                        _setFaqVals(pfx, f.q_es, f.a_es, f.q_en, f.a_en);
+                        _wireFaqForm(null, pfx, () => _updateFaqItem(i, pfx), form);
+                    }
+                }
+            });
+        }
+    }
+
+    async function addFaqItem() {
+        const vals = _getFaqVals('new');
+        if (!vals.q_es) { toast('Escribí al menos la pregunta en español.', 'error'); return; }
+        _contenidoState.faqs.push(vals);
+        const res = await _saveFaqs();
+        if (res?.success) {
+            toast('Pregunta agregada.', 'success');
+            _clearFaqVals('new');
+            document.getElementById('faq-add-wrap').style.display = 'none';
+            _refreshFaqsList();
+        } else { _contenidoState.faqs.pop(); toast('Error al guardar.', 'error'); }
+    }
+
+    async function _updateFaqItem(i, prefix) {
+        const vals = _getFaqVals(prefix);
+        if (!vals.q_es) { toast('La pregunta en español es obligatoria.', 'error'); return; }
+        _contenidoState.faqs[i] = vals;
+        const res = await _saveFaqs();
+        if (res?.success) { toast('Pregunta actualizada.', 'success'); _refreshFaqsList(); }
+        else { toast('Error al guardar.', 'error'); }
     }
 
     // =====================================================================
