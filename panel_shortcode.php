@@ -23,12 +23,31 @@ function mbv_panel_shortcode() {
     ?>
     <!-- Hide WP theme chrome on this page -->
     <style>
+    /* Flatsome-specific + generic WP theme selectors */
+    .mbvp-active #header,
+    .mbvp-active #header-outer,
+    .mbvp-active #header-section,
+    .mbvp-active .header-wrapper,
+    .mbvp-active header.header,
     .mbvp-active .site-header,
+    .mbvp-active #top-bar,
+    .mbvp-active .nav-bar,
+    .mbvp-active .header-nav,
+    .mbvp-active #footer,
+    .mbvp-active #footer-outer,
+    .mbvp-active footer.footer,
     .mbvp-active .site-footer,
     .mbvp-active #breadcrumbs,
+    .mbvp-active .breadcrumbs,
+    .mbvp-active .flatsome-breadcrumbs,
     .mbvp-active .entry-header,
     .mbvp-active .page-title,
-    .mbvp-active .flatsome-breadcrumbs { display: none !important; }
+    .mbvp-active #wpadminbar { display: none !important; }
+
+    /* Remove WP admin bar offset */
+    html.mbvp-html { margin-top: 0 !important; }
+    html.mbvp-html body { margin-top: 0 !important; }
+
     .mbvp-active #main,
     .mbvp-active .content-area,
     .mbvp-active .entry-content,
@@ -214,6 +233,27 @@ function mbv_panel_shortcode() {
 
     <script>
     document.body.classList.add('mbvp-active');
+    document.documentElement.classList.add('mbvp-html');
+
+    // Force-hide Flatsome header/footer/adminbar by direct DOM manipulation
+    // (CSS-only approach can miss elements loaded after paint)
+    (function hideChromeNow() {
+        const selectors = [
+            '#header', '#header-outer', '#header-section', '.header-wrapper',
+            'header.header', '.site-header', '#top-bar', '.nav-bar', '.header-nav',
+            '#footer', '#footer-outer', 'footer.footer', '.site-footer',
+            '#breadcrumbs', '.breadcrumbs', '.flatsome-breadcrumbs',
+            '.entry-header', '.page-title', '#wpadminbar'
+        ];
+        selectors.forEach(function(sel) {
+            document.querySelectorAll(sel).forEach(function(el) {
+                el.style.setProperty('display', 'none', 'important');
+            });
+        });
+        document.documentElement.style.setProperty('margin-top', '0', 'important');
+        document.body.style.setProperty('margin-top', '0', 'important');
+    })();
+
     window.MBV_NONCE = <?php echo json_encode( $nonce ); ?>;
     window.MBV_API   = <?php echo json_encode( $api_base ); ?>;
 
