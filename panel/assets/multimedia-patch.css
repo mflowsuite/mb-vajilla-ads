@@ -1,0 +1,33 @@
+/* =====================================================================
+   MULTIMEDIA — agregar al FINAL de panel.css
+   ===================================================================== */
+
+/* Search bar */
+.media-search-bar { margin-bottom: 20px; }
+.media-search-input { width: 100%; max-width: 400px; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius); font-size: 0.9375rem; font-family: var(--font-ui); color: var(--gray-900); transition: border-color 0.15s; }
+.media-search-input:focus { outline: none; border-color: var(--red); }
+
+/* Media grid */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+
+/* Media card */
+.media-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.15s; }
+.media-card:hover { box-shadow: var(--shadow-lg); }
+
+.media-thumb { aspect-ratio: 1; overflow: hidden; background: var(--gray-100); }
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s; }
+.media-card:hover .media-thumb img { transform: scale(1.04); }
+
+.media-info { padding: 10px 12px 6px; flex: 1; }
+.media-name { font-size: 0.8rem; font-weight: 600; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+.media-meta { font-size: 0.72rem; color: var(--gray-400); }
+
+.media-actions { display: flex; gap: 6px; padding: 8px 12px 12px; }
+.media-actions .btn-sm { flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; padding: 6px 8px; font-size: 0.75rem; }
+
+@media (max-width: 768px) {
+  .media-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+}
+@media (max-width: 480px) {
+  .media-grid { grid-template-columns: repeat(2, 1fr); }
+}

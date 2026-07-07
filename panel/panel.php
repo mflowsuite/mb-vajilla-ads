@@ -16,7 +16,7 @@ if (isset($_SESSION['logged_in'])) {
 // --- Logout ---
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: /');
+    header('Location: ' . PANEL_BASE . '/panel.php');
     exit;
 }
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['last_active'] = time();
         $_SESSION['csrf_token'] = bin2hex(random_bytes(CSRF_TOKEN_LENGTH));
-        header('Location: /');
+        header('Location: ' . PANEL_BASE . '/panel.php');
         exit;
     } else {
         $login_error = 'Usuario o contraseña incorrectos.';
@@ -47,7 +47,7 @@ if (!isset($_SESSION['logged_in'])) {
 <title>MB Vajilla — Panel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&family=Playfair+Display+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/panel.css">
+<link rel="stylesheet" href="<?= PANEL_BASE ?>/assets/panel.css">
 </head>
 <body class="login-page">
 <div class="login-wrap">
@@ -57,7 +57,7 @@ if (!isset($_SESSION['logged_in'])) {
     <?php if ($login_error): ?>
     <div class="login-error"><?= htmlspecialchars($login_error) ?></div>
     <?php endif; ?>
-    <form method="POST" action="/">
+    <form method="POST" action="<?= PANEL_BASE ?>/panel.php">
       <div class="field-group">
         <label for="username">Usuario</label>
         <input type="text" id="username" name="username" autocomplete="username" required>
@@ -87,7 +87,7 @@ $csrf = $_SESSION['csrf_token'];
 <title>MB Vajilla — Panel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700&family=Playfair+Display+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/panel.css">
+<link rel="stylesheet" href="<?= PANEL_BASE ?>/assets/panel.css">
 </head>
 <body class="panel-page">
 
@@ -95,7 +95,7 @@ $csrf = $_SESSION['csrf_token'];
 <header class="topbar">
   <button class="hamburger" id="hamburger" aria-label="Menú">&#9776;</button>
   <span class="topbar-logo">MB Vajilla</span>
-  <a href="/?logout=1" class="topbar-logout">Salir</a>
+  <a href="<?= PANEL_BASE ?>/panel.php?logout=1" class="topbar-logout">Salir</a>
 </header>
 
 <!-- Sidebar -->
@@ -128,7 +128,7 @@ $csrf = $_SESSION['csrf_token'];
 <script>
   window.MBV_CSRF = <?= json_encode($csrf) ?>;
 </script>
-<script src="/assets/panel.js"></script>
+<script src="<?= PANEL_BASE ?>/assets/panel.js"></script>
 </body>
 </html>
 <?php

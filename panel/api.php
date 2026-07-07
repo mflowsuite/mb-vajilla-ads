@@ -14,7 +14,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 // --- CSRF check for mutating actions ---
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
-$mutating = ['producto_save', 'producto_delete', 'media_upload'];
+$mutating = ['producto_save', 'producto_delete', 'media_upload', 'media_delete'];
 if (in_array($action, $mutating)) {
     $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
     if ($token !== $_SESSION['csrf_token']) {
@@ -181,6 +181,24 @@ switch ($action) {
             'sin_medidas'         => $no_medidas,
             'ultima_actualizacion' => date('d/m/Y H:i'),
         ]);
+        break;
+
+    case 'media_list':
+        $page     = intval($_GET['page'] ?? 1);
+        $per_page = intval($_GET['per_page'] ?? 60);
+        $search   = urlencode($_GET['search'] ?? '');
+        $path     = '/wp/v2/media?media_type=image&per_page=' . $per_page . '&page=' . $page . '&orderby=date&order=desc';
+        if ($search) $path .= '&search=' . $search;
+        $result = wp_api('GET', $path);
+        echo json_encode($result['body']);
+        break;
+
+    case 'media_delete':
+        $body   = json_decode(file_get_contents('php://input'), true);
+        $mid    = intval($body['id'] ?? 0);
+        if (!$mid) { echo json_encode(['error' => 'Missing id']); break; }
+        $result = wp_api('DELETE', '/wp/v2/media/' . $mid . '?force=true');
+        echo json_encode(['ok' => $result['code'] === 200, 'code' => $result['code']]);
         break;
 
     default:

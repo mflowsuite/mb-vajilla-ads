@@ -4,7 +4,7 @@ const CSRF = window.MBV_CSRF;
 // --- API helper ---
 async function api(action, params = {}, body = null) {
   const qs = Object.entries(params).map(([k,v]) => '&' + k + '=' + encodeURIComponent(v)).join('');
-  const url = '/api.php?action=' + action + qs;
+  const url = '/panel-admin/api.php?action=' + action + qs;
   const opts = { method: 'GET', headers: { 'X-CSRF-Token': CSRF } };
   if (body) {
     opts.method = 'POST';
@@ -16,7 +16,7 @@ async function api(action, params = {}, body = null) {
     }
   }
   const res = await fetch(url, opts);
-  if (res.status === 401) { window.location.href = '/'; return null; }
+  if (res.status === 401) { window.location.href = '/panel-admin/panel.php'; return null; }
   return res.json();
 }
 

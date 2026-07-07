@@ -1,3 +1,9 @@
+# Panel Admin — MB Vajilla
+# Este archivo está en /public_html/panel-admin/.htaccess
+
+# Archivo por defecto
+DirectoryIndex panel.php
+
 # Force HTTPS
 RewriteEngine On
 RewriteCond %{HTTPS} off
@@ -8,12 +14,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Order allow,deny
     Deny from all
 </Files>
-
-# Block direct access to any .php file except panel.php and api.php
-<FilesMatch "^(?!panel|api).*\.php$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
 
 # Prevent directory listing
 Options -Indexes

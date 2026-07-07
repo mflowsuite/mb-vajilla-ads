@@ -18,3 +18,6 @@ define('MYMEMORY_EMAIL', 'bazarcotidiano@gmail.com');
 
 // === CSRF ===
 define('CSRF_TOKEN_LENGTH', 32);
+
+// === Panel base path (sin trailing slash) ===
+define('PANEL_BASE', '/panel-admin');

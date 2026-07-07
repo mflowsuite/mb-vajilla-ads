@@ -1,0 +1,68 @@
+# Credenciales y secretos
+credentials.local
+*.env
+.env.*
+
+# Archivos de trabajo temporales / exports
+*.csv
+*.xlsx
+_*.json
+*_payload.json
+Restaurantes-tandas/
+Restaurantes-lista-completa.xlsx
+
+# Backups locales
+backup-*/
+backup-wordpress/
+
+# Imagenes y assets de trabajo sueltos (no forman parte del codigo)
+Imagenes/
+Google\ ADS/
+ADS\ Claude/
+Clientes/
+mb-vajilla-seo-repo/
+
+# Scripts sueltos de setup/migracion puntual (ya ejecutados, no reusar)
+catalogo_api.php
+crear_productos.py
+setup_acf_native.php
+setup_acf_v3.php
+subir_fotos.py
+translations_en.php
+tmp*.webp
+
+# Dumps/backups manuales de snippets de WP (la fuente real vive en la DB de WP)
+panel/snippet*-current.php
+panel/snippet*-updated.php
+
+# Documentos HTML/MD de trabajo (mails, propuestas, guias) — no son codigo del panel
+mail-*.html
+demo-catalogo.html
+catalogo-mayorista.html
+cuestionario-seo.html
+presentacion-*.html
+propuesta-*.html
+*.md
+!README.md
+
+# Snippets PHP sueltos de WordPress (viven en la DB de WP, no en este repo)
+acf_*.php
+*_snippet.php
+*_shortcode.php
+cliente_cpt.php
+
+# Configuracion local de Claude / herramientas
+.claude/
+.superpowers/
+
+# Archivos de sistema / accesos directos
+desktop.ini
+*.lnk
+
+# JSONs de workflows n8n sueltos (viven en n8n, no en este repo)
+*.json
+!panel/**/*.json
+
+# Python cache
+__pycache__/
+*.pyc
