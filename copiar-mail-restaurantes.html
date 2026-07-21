@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Copiar el mail — MB Vajilla</title>
+<style>
+body{margin:0;background:#f4f5f7;color:#1a1a1a;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:26px 16px 90px}
+h1{font-size:24px;color:#a91818;margin:0 0 4px}
+.sub{color:#5c6470;margin:0 0 20px;font-size:15px}
+.tip{background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:13px 18px;margin-bottom:18px;font-size:14.5px;color:#0c4a6e}
+.tip b{color:#0369a1}
+.pasos{background:#fff;border:1px solid #e3e7ec;border-radius:12px;padding:16px 20px;margin-bottom:18px;counter-reset:p;list-style:none}
+.pasos li{counter-increment:p;position:relative;padding:7px 0 7px 34px;font-size:15px}
+.pasos li::before{content:counter(p);position:absolute;left:0;top:7px;width:23px;height:23px;background:#a91818;color:#fff;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:700}
+.lbl{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin:0 0 5px}
+.asuntobox{display:flex;gap:9px;align-items:center;background:#fff;border:1px solid #e3e7ec;border-radius:10px;padding:11px 14px;margin-bottom:16px}
+.asuntobox .t{flex:1;font-weight:600;font-size:15px}
+.btn{background:#a91818;color:#fff;border:0;border-radius:9px;padding:11px 20px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn.sm{padding:8px 14px;font-size:13px}
+.btn.big{width:100%;padding:15px;font-size:17px;margin-bottom:22px}
+h3.op{font-size:16px;margin:22px 0 8px;color:#1a1a1a}
+.rec{background:#dcfce7;color:#15803d;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.mini{color:#5c6470;font-size:13.5px;margin:0 0 12px}
+code{background:#f1f5f9;border-radius:5px;padding:1px 6px;font-size:13px}
+.mailbox{background:#fff;border:1px solid #e3e7ec;border-radius:12px;padding:0;overflow:hidden}
+#mail{padding:0}
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120%);background:#16a34a;color:#fff;padding:12px 22px;border-radius:9px;font-weight:600;font-size:14.5px;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;z-index:60}
+#toast.show{transform:translate(-50%,0);opacity:1}
+#toast.err{background:#a91818}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Mail de Restaurantes — para enviar desde ventas@</h1>
+  <p class="sub">Copiá el mail con un botón y pegalo directo en el webmail. Sin código.</p>
+
+  <div class="tip">
+    <b>Tip:</b> mandalo a <b>pocos contactos por vez</b> (no a listas enteras). La primera vez, <b>mandátelo a vos misma</b> para ver cómo llega.
+  </div>
+
+  <div class="lbl">Asunto</div>
+  <div class="asuntobox">
+    <span class="t" id="asunto">Invertí una vez. Mantené la misma vajilla durante años.</span>
+    <button class="btn sm" id="copyasunto">Copiar asunto</button>
+  </div>
+
+  <h3 class="op">Cómo mandarlo — con la foto y el diseño completo</h3>
+  <ol class="pasos">
+    <li>Tocá <b>"Copiar el código"</b> (botón de abajo).</li>
+    <li>En el webmail, en la barra de herramientas del mensaje, tocá el <b>"..."</b> (más) y buscá <b>"Código fuente"</b> (a veces es un ícono <code>&lt; &gt;</code>).</li>
+    <li>Se abre una ventanita: <b>pegá ahí el código</b> (Ctrl+V) y dale <b>Aceptar</b>.</li>
+    <li>Poné el destinatario, el asunto, y <b>enviá</b>.</li>
+  </ol>
+  <button class="btn big" id="copycode">Copiar el código</button>
+
+  <div class="lbl">Así se ve el mail</div>
+  <div class="mailbox"><div id="mail">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ececec" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0; mso-table-rspace:0">
+  <tr>
+    <td align="center" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; mso-table-lspace:0; mso-table-rspace:0; padding:20px 10px">
+
+      <div class="container" style="max-width:640px; margin:0 auto; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 8px 30px rgba(0, 0, 0, 0.08)">
+
+        <!-- HEADER -->
+        <div class="header" style="background:#fff; padding:26px 28px 22px; border-bottom:3px solid #a91818; text-align:center" align="center">
+          <img src="https://www.mbvajilla.com.ar/wp-content/uploads/2021/09/LOGO-MBVAJILLA.jpg" alt="MB Vajilla" style="-ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; display:block; max-height:240px; max-width:560px; width:auto; margin:0 auto" height="auto" width="auto">
+          <div class="tagline" style="font-size:12px; color:#a91818; letter-spacing:2.5px; text-transform:uppercase; margin-top:12px; font-weight:600">Fábrica de Vajilla de Aleación Térmica</div>
+        </div>
+
+        <!-- HERO con foto del chef + frase con estilo editorial -->
+        <div class="hero-wrap" style="position:relative; background:#000">
+          <img src="https://www.mbvajilla.com.ar/wp-content/uploads/2026/07/mail-novedades-chef.jpg" alt="Vajilla MB en restaurante" class="hero-img" style="-ms-interpolation-mode:bicubic; border:0; height:auto; line-height:100%; outline:none; text-decoration:none; display:block; width:100%; max-width:640px; opacity:0.92" height="auto" width="100%">
+          <div class="hero-overlay" style='background:linear-gradient(135deg, #a91818 0%, #7f1212 100%); color:#fff; padding:22px 28px; text-align:center; font-family:Georgia, "Times New Roman", serif; font-style:italic; font-size:18px; line-height:1.4; border-top:3px solid #fff' align="center">
+            Invertí una vez. <strong style="color:#fff; font-style:normal; font-weight:700">Mantené la misma vajilla durante años.</strong>
+          </div>
+        </div>
+
+        <!-- BODY: intro texto exacto -->
+        <div class="body-pad" style="padding:34px 36px 22px; font-size:15.5px; color:#333; line-height:1.75">
+          <p class="lead" style="margin:0 0 14px; font-size:16.5px; color:#444; border-left:4px solid #a91818; padding-left:16px; margin-bottom:20px">Hola, ¿cómo estás?</p>
+          <p style="margin:0 0 14px">Quería contarte que renovamos nuestro sitio web y ya está disponible el <strong style="color:#0f172a">nuevo catálogo</strong> con toda nuestra línea de productos y las novedades 2026.</p>
+          <p style="margin:0 0 14px">Además, vas a encontrar información sobre nuestro servicio de <strong style="color:#0f172a">grabado personalizado</strong>, que permite identificar cada pieza con el nombre o logo de tu establecimiento, y conocer por qué hace más de <strong style="color:#0f172a">36 años</strong> nuestros clientes siguen eligiéndonos: stock permanente, reposición garantizada, envíos a todo el país y productos pensados para el uso profesional.</p>
+          <p style="margin:0 0 14px">Podés verlo y descargar el catálogo ingresando a <a href="https://www.mbvajilla.com.ar" target="_blank" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; color:#a91818; text-decoration:underline">www.mbvajilla.com.ar</a>.</p>
+        </div>
+
+        <!-- CTA principal -->
+        <div class="cta-wrap" style="text-align:center; padding:32px 20px 12px; background:#fff" align="center">
+          <a href="https://www.mbvajilla.com.ar/?catalogo=1&amp;src=email_campaign" target="_blank" class="cta-btn" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; display:inline-block; background:linear-gradient(135deg, #a91818 0%, #7f1212 100%); text-decoration:none; padding:17px 34px; border-radius:10px; font-size:16px; font-weight:700; letter-spacing:0.5px; text-transform:uppercase; box-shadow:0 6px 20px rgba(169, 24, 24, 0.35); line-height:1.2; color:#fff">
+            ⬇ DESCARGÁ EL CATÁLOGO CON NOVEDADES
+          </a>
+          <div class="cta-sub" style="display:inline-block; margin-top:18px; padding:8px 22px; background:linear-gradient(135deg, #fff7ed 0%, #fed7aa 50%, #fdba74 100%); color:#7c2d12; font-size:12.5px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; border-radius:999px; border:1px solid #fb923c; box-shadow:0 3px 10px rgba(251, 146, 60, 0.28)"><span class="cta-sub-star" style="color:#d97706; font-size:14px; vertical-align:-1px; margin:0 6px" valign="-1px">✦</span> Edición 2026 · Catálogo completo <span class="cta-sub-star" style="color:#d97706; font-size:14px; vertical-align:-1px; margin:0 6px" valign="-1px">✦</span></div>
+        </div>
+
+        <!-- Cierre texto exacto -->
+        <div class="body-pad" style="padding:34px 36px 22px; font-size:15.5px; color:#333; line-height:1.75; padding-top:24px">
+          <p style="margin:0 0 14px">¿Cómo va tu negocio? Si en algún momento estás pensando en renovar tu vajilla o necesitás desarrollar una línea personalizada, respondé este mismo correo. Con gusto te voy a asesorar.</p>
+        </div>
+
+        <!-- Firma exacta -->
+        <div class="signature" style="padding:26px 36px 28px; border-top:1px solid #eee; background:#fafafa; font-size:14px; color:#444; line-height:1.65">
+          <div style="color:#666;margin-bottom:12px;">Un saludo,</div>
+          <div class="name" style="font-weight:700; color:#a91818; font-size:17px; margin-bottom:3px; letter-spacing:0.2px">Lorena</div>
+          <div class="role" style="color:#444; font-size:13px; margin-bottom:12px">MB Vajilla Fábrica</div>
+          <div class="contact" style="color:#666; font-size:13px; line-height:1.8">
+            Hidalgo 1727 · CABA, Buenos Aires, Argentina<br>
+            Tel: 54 11 4855-8060 (líneas rotativas) / 11 4071-0001<br>
+            <a href="mailto:ventas@mbvajilla.com.ar" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; color:#a91818">ventas@mbvajilla.com.ar</a><br>
+            Instagram: <a href="https://www.instagram.com/mbvajilla" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; color:#a91818" target="_blank">@mbvajilla</a><br>
+            <a href="https://www.mbvajilla.com.ar" style="-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; color:#a91818">www.mbvajilla.com.ar</a>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer" style="background:#7f1212; color:#f0d5d5; padding:22px 32px; text-align:center; font-size:11.5px; line-height:1.7" align="center">
+          <div class="brand" style="color:#fff; font-weight:600; letter-spacing:0.5px">MB VAJILLA</div>
+          <div style="margin-top:6px;">Fábrica de Vajilla de Aleación Térmica · Hidalgo 1727, CABA, Buenos Aires, Argentina</div>
+          
+        </div>
+
+      </div>
+
+    </td>
+  </tr>
+</table>
+</div></div>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  function toast(m, err) { var t = document.getElementById('toast'); t.textContent = m; t.className = 'show' + (err ? ' err' : ''); setTimeout(function(){ t.className=''; }, 3200); }
+  function copiarTexto(txt) {
+    if (navigator.clipboard && navigator.clipboard.writeText) { return navigator.clipboard.writeText(txt); }
+    return Promise.reject();
+  }
+  document.getElementById('copyasunto').addEventListener('click', function () {
+    copiarTexto(document.getElementById('asunto').innerText).then(function(){ toast('Asunto copiado'); }).catch(function(){ toast('Copialo a mano', true); });
+  });
+  document.getElementById('copycode').addEventListener('click', function () {
+    var code = document.getElementById('mail').innerHTML;
+    copiarTexto(code).then(function(){ toast('¡Código copiado! Pegalo en "Código fuente" del webmail.'); }).catch(function(){ toast('No se pudo copiar el código.', true); });
+  });
+})();
+</script>
+</body>
+</html>
