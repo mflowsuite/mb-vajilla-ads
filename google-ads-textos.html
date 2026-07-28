@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Google Ads — MB Vajilla · Textos y configuración</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:#f4f5f7;color:#1a1a1a;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header.top{border-bottom:3px solid #a91818;padding-bottom:20px;margin-bottom:8px}
+  header.top h1{margin:0;font-size:29px;letter-spacing:-.02em;color:#a91818}
+  header.top p{margin:7px 0 0;color:#5c6470;font-size:15.5px}
+  .resumen{background:#1a1a1a;color:#fff;border-radius:12px;padding:20px 24px;margin:22px 0 26px}
+  .resumen h2{margin:0 0 12px;font-size:17px;color:#fff}
+  .resumen ul{margin:0;padding-left:20px}
+  .resumen li{margin:7px 0;font-size:15px;color:#e9ecf1}
+  .resumen b{color:#fff}
+  section{background:#fff;border:1px solid #e3e7ec;border-radius:14px;padding:24px 26px;margin-bottom:20px;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+  section>h2{margin:0 0 3px;font-size:20px;color:#a91818;display:flex;align-items:center;gap:10px}
+  section>h2 .n{background:#a91818;color:#fff;width:29px;height:29px;border-radius:8px;display:grid;place-items:center;font-size:15px;flex:0 0 auto}
+  .sub{color:#5c6470;font-size:14.5px;margin:0 0 16px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;margin:8px 0}
+  th{background:#f7f8fa;text-align:left;padding:9px 11px;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:#6b7280;border-bottom:1px solid #e3e7ec}
+  td{padding:9px 11px;border-bottom:1px solid #f0f2f5;vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  .tablewrap{overflow-x:auto}
+  code{background:#f4f5f7;border:1px solid #e3e7ec;border-radius:5px;padding:2px 7px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px}
+  .row{display:flex;align-items:center;gap:10px;background:#fafbfc;border:1px solid #e3e7ec;border-left:3px solid #a91818;border-radius:8px;padding:9px 12px;margin:7px 0}
+  .row .txt{flex:1;font-size:15px;padding:4px 7px;border:1px dashed transparent;border-radius:6px;outline:0;min-width:0}
+  .row .txt:hover{border-color:#cbd5e1;background:#fff}
+  .row .txt:focus{border-color:#a91818;background:#fffdfd}
+  .row .len{font-size:12px;color:#16a34a;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .row .len.over{color:#a91818}
+  .cp{background:#fff;border:1px solid #d7dce3;border-radius:6px;color:#475569;font-size:12px;font-weight:600;padding:5px 11px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,color .15s}
+  .cp:hover{background:#a91818;border-color:#a91818;color:#fff}
+  .blockbtn{background:#a91818;color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px}
+  .blockbtn:hover{filter:brightness(1.08)}
+  h3{font-size:15px;margin:22px 0 6px;color:#1a1a1a}
+  h3 .hint{font-weight:400;color:#8a929e;font-size:13px;text-transform:none;letter-spacing:0}
+  .urlbox{background:#0f172a;color:#fff;border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .urlbox .u{flex:1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;word-break:break-all;min-width:240px;padding:5px 8px;border:1px dashed transparent;border-radius:6px;outline:0}
+  .urlbox .u:focus{border-color:#fff}
+  .urlbox .cp{background:#fff;color:#0f172a;border:0;font-size:13px;padding:8px 15px}
+  .urlbox .cp:hover{background:#a91818;color:#fff}
+  .tip{background:#f0f9ff;border:1px solid #bae6fd;border-radius:9px;padding:13px 16px;margin:14px 0;font-size:14.5px}
+  .tip b{color:#0369a1}
+  .warn{background:#fffbeb;border:1px solid #fde68a;border-radius:9px;padding:13px 16px;margin:14px 0;font-size:14.5px}
+  .warn b{color:#92400e}
+  .kw{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}
+  .kw span{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:5px 11px;font-size:14px}
+  .neg span{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+  .pasos{counter-reset:p;list-style:none;padding:0;margin:10px 0}
+  .pasos li{counter-increment:p;position:relative;padding:9px 0 9px 38px;border-bottom:1px solid #f0f2f5;font-size:15px}
+  .pasos li:last-child{border-bottom:0}
+  .pasos li::before{content:counter(p);position:absolute;left:0;top:9px;width:24px;height:24px;background:#a91818;color:#fff;border-radius:6px;display:grid;place-items:center;font-size:13px;font-weight:700}
+  footer{margin-top:44px;padding-top:22px;border-top:1px solid #e3e7ec;text-align:center;color:#8a929e;font-size:13px}
+  .mfs{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:12px;color:#6b7280;animation:spring .7s cubic-bezier(.34,1.56,.64,1) both}
+  .mfs i{width:7px;height:7px;border-radius:50%;background:#a91818;display:block}
+  @keyframes spring{0%{opacity:0;transform:translateY(9px) scale(.96)}100%{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.mfs{animation:none}}
+  #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);background:#16a34a;color:#fff;padding:12px 24px;border-radius:9px;font-weight:600;font-size:14.5px;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;z-index:60}
+  #toast.show{transform:translate(-50%,0);opacity:1}
+  @media(max-width:600px){.row{flex-wrap:wrap}.row .txt{flex:1 0 100%;order:1}.row .len{order:2}.row .cp{order:3;margin-left:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Google Ads — MB Vajilla</h1>
+  <p>Textos y configuración para cargar la campaña · Julio 2026</p>
+</header>
+
+<div class="resumen">
+  <h2>La campaña en 4 líneas</h2>
+  <ul>
+    <li><b>Qué vendemos:</b> vajilla de aleación térmica para gastronomía. Somos fábrica, no revendedores.</li>
+    <li><b>A quién:</b> restaurantes, hoteles, catering y bazares de <b>toda Argentina</b> (hacemos envíos a todo el país).</li>
+    <li><b>Qué queremos que pase:</b> que <b>descarguen el catálogo</b>. Ahí dejan sus datos y entran como contacto comercial.</li>
+    <li><b>Cómo lo medimos:</b> por la <b>descarga del catálogo</b>, no por impresiones ni clics.</li>
+  </ul>
+</div>
+
+<section>
+  <h2><span class="n">1</span> Configuración de la campaña</h2>
+  <p class="sub">Campaña de Búsqueda. Arranca ya y corre todo el año.</p>
+  <div class="tablewrap">
+  <table>
+    <tbody>
+      <tr><td style="width:190px"><b>Tipo</b></td><td>Búsqueda · objetivo <b>Clientes potenciales</b></td></tr>
+      <tr><td><b>Ubicación</b></td><td><b>Toda Argentina</b></td></tr>
+      <tr><td><b>Opción de ubicación</b></td><td><b>“Presencia: personas que están en la ubicación”</b> — <u>no</u> “Presencia o interés”</td></tr>
+      <tr><td><b>Idioma</b></td><td>Español</td></tr>
+      <tr><td><b>Red</b></td><td>Solo Búsqueda. <b>Desactivar</b> socios de búsqueda y Display</td></tr>
+      <tr><td><b>Dispositivos</b></td><td>Todos, con <code>+30%</code> en celular</td></tr>
+      <tr><td><b>Puja</b></td><td>Arrancar con <b>Maximizar clics + límite de CPC</b>. A las 2-3 semanas, cuando haya datos de conversión, pasar a <b>Maximizar conversiones</b></td></tr>
+      <tr><td><b>Presupuesto</b></td><td>A definir con la agencia</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="warn">
+    <b>El ajuste que más se pasa por alto:</b> dejar la ubicación en <b>“Presencia”</b>. Con “Presencia o interés” el aviso se le muestra a gente de otros países que busca sobre Argentina, y ese clic se paga igual.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">2</span> URL final (con medición)</h2>
+  <p class="sub">Esta es la dirección exacta a cargar en el anuncio. El <code>src=google_ads</code> es lo que nos permite saber que ese contacto vino de la campaña.</p>
+  <div class="urlbox">
+    <span class="u" contenteditable="true" spellcheck="false" data-t>https://www.mbvajilla.com.ar/?catalogo=1&amp;src=google_ads</span>
+    <button class="cp" data-copy>Copiar</button>
+  </div>
+  <div class="tip">
+    <b>Importante:</b> mantener el <code>?catalogo=1&amp;src=google_ads</code> tal cual. Si se pierde ese pedazo, los contactos siguen entrando pero <b>no sabemos que vinieron de Google Ads</b> y no se puede medir el retorno.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">3</span> Títulos del anuncio</h2>
+  <p class="sub">Anuncio adaptable de búsqueda (RSA). Máximo <b>30 caracteres</b> cada uno — el contador de la derecha se actualiza si editan el texto.</p>
+  <div data-block="titulos">
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla para gastronomía</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla que no se astilla</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Fábrica de vajilla</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Aleación térmica, no loza</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Platos para restaurantes</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla para hoteles</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Somos fábrica desde 1990</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Envíos a todo el país</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Descargá el catálogo</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla profesional</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Stock permanente</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Resiste 500°C</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Showroom en Buenos Aires</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla mayorista</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Pedí tu catálogo gratis</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+  </div>
+  <button class="blockbtn" data-copyblock="titulos">Copiar los 15 títulos</button>
+</section>
+
+<section>
+  <h2><span class="n">4</span> Descripciones</h2>
+  <p class="sub">Máximo <b>90 caracteres</b> cada una.</p>
+  <div data-block="desc">
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="90">Vajilla de aleación térmica: no se astilla y dura años en servicio real. Somos fábrica.</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="90">Fábrica propia desde 1990. Proveemos hoteles y restaurantes de todo el país.</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="90">Descargá el catálogo con toda la línea, medidas y condiciones. Sin compromiso.</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="90">Platos que aguantan el uso diario de tu cocina. Envíos a todo el país. Pedí el catálogo.</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+  </div>
+  <button class="blockbtn" data-copyblock="desc">Copiar las 4 descripciones</button>
+</section>
+
+<section>
+  <h2><span class="n">5</span> Enlaces del sitio (sitelinks)</h2>
+  <p class="sub">Título máximo <b>25</b>, descripciones <b>35</b> cada una.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Título</th><th>Descripción</th><th>Destino</th></tr></thead>
+    <tbody>
+      <tr><td><b>Catálogo completo</b></td><td>Toda la línea y sus medidas</td><td><code>/?catalogo=1&amp;src=google_ads</code></td></tr>
+      <tr><td><b>Nuestro showroom</b></td><td>Vení a ver y tocar la vajilla</td><td><code>/showroom</code></td></tr>
+      <tr><td><b>Productos</b></td><td>Platos, bowls, tablas y fuentes</td><td><code>/catalogo</code></td></tr>
+      <tr><td><b>Quiénes somos</b></td><td>Fábrica argentina desde 1990</td><td><code>/nosotros</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">6</span> Textos destacados y extensiones</h2>
+  <p class="sub">Son gratis y hacen que el anuncio ocupe más espacio en pantalla. Conviene cargarlas todas.</p>
+  <h3>Textos destacados <span class="hint">(máximo 25 caracteres)</span></h3>
+  <div data-block="callouts">
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">Fábrica propia</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">Envíos a todo el país</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">Stock permanente</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">Más de 30 años</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">No se astilla</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="25">Atención a mayoristas</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+  </div>
+  <button class="blockbtn" data-copyblock="callouts">Copiar los 6 textos destacados</button>
+
+  <h3>Otras extensiones a activar</h3>
+  <div class="tablewrap">
+  <table>
+    <tbody>
+      <tr><td style="width:170px"><b>Llamada</b></td><td><code>11 4855-8060</code></td></tr>
+      <tr><td><b>Ubicación</b></td><td>Vincular la ficha de Google Business de <b>MB Vajilla</b> (Hidalgo 1727, CABA). Muestra el mapa y la distancia.</td></tr>
+      <tr><td><b>Formulario de clientes potenciales</b></td><td>Opcional. Si se activa, los datos hay que pasarlos igual al sistema de contactos.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">7</span> Palabras clave</h2>
+  <p class="sub">Concordancia de <b>frase</b> salvo donde se indique.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>Grupo de anuncios</th><th>Palabras</th></tr></thead>
+    <tbody>
+      <tr><td><b>Producto</b></td><td>vajilla gastronómica · vajilla para restaurantes · platos para restaurante · vajilla para hoteles · vajilla profesional</td></tr>
+      <tr><td><b>Proveedor</b></td><td>proveedor de vajilla · fábrica de vajilla · vajilla mayorista · distribuidor de vajilla</td></tr>
+      <tr><td><b>Producto específico</b></td><td>platos de aleación térmica · bowls para restaurante · tablas para servir · fuentes para restaurante</td></tr>
+      <tr><td><b>Problema</b> <span style="color:#8a929e">(amplia)</span></td><td>platos que no se rompen · vajilla resistente restaurante</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Palabras negativas <span class="hint">(cargar desde el día 1)</span></h3>
+  <div class="kw neg">
+    <span>descartable</span><span>plástico</span><span>melamina</span><span>segunda mano</span><span>usado</span>
+    <span>alquiler</span><span>curso</span><span>empleo</span><span>trabajo</span><span>gratis</span>
+    <span>casero</span><span>manualidades</span><span>pintar</span><span>vintage</span><span>antigua</span>
+  </div>
+  <button class="blockbtn" data-copyneg>Copiar las negativas</button>
+  <div class="tip">
+    <b>Por qué importan:</b> sin negativas se paga por gente que busca vajilla descartable, de plástico o de segunda mano. Nada de eso es lo que vendemos.
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">8</span> Refuerzo de septiembre — Hotelga</h2>
+  <p class="sub">Del <b>2 al 4 de septiembre</b> es Hotelga en La Rural, la feria más importante del rubro. No exponemos, pero el showroom está a 10 minutos del predio.</p>
+  <p>Esos 3 días, sobre la misma campaña: subir la puja un <code>30-40%</code>, sumar las palabras <code>hotelga</code> y <code>hotelga 2026</code>, y activar estos títulos:</p>
+  <div data-block="hotelga">
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">¿Estás en Hotelga?</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">A 10 min de Hotelga</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Showroom cerca de Hotelga</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+    <div class="row"><span class="txt" contenteditable="true" data-t data-max="30">Vajilla cerca de Hotelga</span><span class="len"></span><button class="cp" data-copy>Copiar</button></div>
+  </div>
+  <button class="blockbtn" data-copyblock="hotelga">Copiar los títulos de Hotelga</button>
+  <div class="warn">
+    <b>A tener en cuenta:</b> “Hotelga” es una marca registrada. Se puede <b>pujar por la palabra</b> sin problema, pero <b>usarla dentro del texto del anuncio</b> Google la puede desaprobar. Si eso pasa, se sacan estos 4 títulos y la campaña sigue corriendo con los demás.
+  </div>
+  <p style="margin-top:14px">Después del <b>4 de septiembre</b>: bajar la puja al valor normal, sacar estos títulos y las palabras de Hotelga.</p>
+</section>
+
+<section>
+  <h2><span class="n">9</span> Medición</h2>
+  <p class="sub">Lo que define si la campaña sirve o no.</p>
+  <ol class="pasos">
+    <li><b>Conversión principal:</b> descarga del catálogo. Se dispara cuando alguien completa el formulario en la web.</li>
+    <li>Cargar esa conversión en Google Ads <b>antes</b> de que la campaña arranque.</li>
+    <li>Del lado nuestro los contamos con la etiqueta <code>google_ads</code>, así cruzamos ambos números.</li>
+    <li><b>Reporte a los 15 días:</b> clics, costo por clic, catálogos descargados y costo por catálogo.</li>
+  </ol>
+  <div class="warn">
+    <b>Lo que no alcanza como reporte:</b> impresiones y alcance. El número que importa es <b>cuántos catálogos se descargaron y cuánto costó cada uno</b>.
+  </div>
+</section>
+
+<footer>
+  MB Vajilla Fábrica · Hidalgo 1727, CABA · ventas@mbvajilla.com.ar · 11 4855-8060
+  <br><span class="mfs"><i></i> Powered by MflowSuite</span>
+</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+(function () {
+  var KEY = 'mbv_ads_textos_v1';
+
+  function toast(m) {
+    var t = document.getElementById('toast');
+    t.textContent = m; t.className = 'show';
+    setTimeout(function () { t.className = ''; }, 2000);
+  }
+
+  function copiar(txt, msg) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function () { toast(msg); }).catch(fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); toast(msg); } catch (e) { toast('No se pudo copiar'); }
+      document.body.removeChild(ta);
+    }
+  }
+
+  function contar(el) {
+    var max = parseInt(el.getAttribute('data-max'), 10);
+    if (!max) return;
+    var n = (el.innerText || '').trim().length;
+    var badge = el.parentNode.querySelector('.len');
+    if (badge) {
+      badge.textContent = n + '/' + max;
+      badge.className = 'len' + (n > max ? ' over' : '');
+    }
+  }
+
+  function contarTodos() {
+    var els = document.querySelectorAll('[data-max]');
+    for (var i = 0; i < els.length; i++) { contar(els[i]); }
+  }
+
+  // Guardar / restaurar ediciones en este navegador
+  function guardar() {
+    var out = {}, els = document.querySelectorAll('[data-t]');
+    for (var i = 0; i < els.length; i++) { out[i] = (els[i].innerText || '').trim(); }
+    try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+  }
+  function restaurar() {
+    var raw;
+    try { raw = localStorage.getItem(KEY); } catch (e) { return; }
+    if (!raw) return;
+    var data;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    var els = document.querySelectorAll('[data-t]');
+    for (var i = 0; i < els.length; i++) { if (data[i]) { els[i].innerText = data[i]; } }
+  }
+
+  document.addEventListener('input', function (e) {
+    if (e.target.hasAttribute && e.target.hasAttribute('data-t')) { contar(e.target); guardar(); }
+  });
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-copy]');
+    if (btn) {
+      var el = btn.parentNode.querySelector('[data-t]');
+      if (el) { copiar((el.innerText || '').trim(), 'Copiado'); }
+      return;
+    }
+    var blk = e.target.closest('[data-copyblock]');
+    if (blk) {
+      var cont = document.querySelector('[data-block="' + blk.getAttribute('data-copyblock') + '"]');
+      if (cont) {
+        var items = cont.querySelectorAll('[data-t]'), lines = [];
+        for (var i = 0; i < items.length; i++) { lines.push((items[i].innerText || '').trim()); }
+        copiar(lines.join('\n'), lines.length + ' textos copiados');
+      }
+      return;
+    }
+    if (e.target.closest('[data-copyneg]')) {
+      var negs = document.querySelectorAll('.neg span'), arr = [];
+      for (var j = 0; j < negs.length; j++) { arr.push((negs[j].textContent || '').trim()); }
+      copiar(arr.join('\n'), arr.length + ' negativas copiadas');
+    }
+  });
+
+  restaurar();
+  contarTodos();
+})();
+</script>
+</body>
+</html>
