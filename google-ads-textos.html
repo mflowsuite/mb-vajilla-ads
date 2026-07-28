@@ -379,7 +379,7 @@
 
   // Al abrir: traer la ultima version guardada por cualquiera
   function cargar() {
-    fetch(API, { cache: 'no-store' })
+    fetch(API + '?t=' + Date.now(), { cache: 'no-store' })
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (d && d.textos && Object.keys(d.textos).length) {
