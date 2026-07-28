@@ -70,11 +70,22 @@
   @media(prefers-reduced-motion:reduce){.mfs{animation:none}}
   #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);background:#16a34a;color:#fff;padding:12px 24px;border-radius:9px;font-weight:600;font-size:14.5px;opacity:0;transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;z-index:60}
   #toast.show{transform:translate(-50%,0);opacity:1}
+  .guardabar{position:sticky;top:0;z-index:50;background:#0f172a;color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .gb-estado{flex:1;font-size:14px;color:#cbd5e1;min-width:200px}
+  .gb-estado b{color:#fff}
+  .gb-btn{background:#a91818;color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .gb-btn:hover{filter:brightness(1.1)}
+  .gb-btn:disabled{opacity:.5;cursor:default}
   @media(max-width:600px){.row{flex-wrap:wrap}.row .txt{flex:1 0 100%;order:1}.row .len{order:2}.row .cp{order:3;margin-left:auto}}
 </style>
 </head>
 <body>
 <div class="wrap">
+
+<div class="guardabar">
+  <div class="gb-estado" id="gb-estado">Cargando la última versión…</div>
+  <button class="gb-btn" id="gb-guardar">Guardar los textos</button>
+</div>
 
 <header class="top">
   <h1>Campaña Hotelga 2026 — Google Ads</h1>
@@ -295,12 +306,13 @@
 
 <script>
 (function () {
-  var KEY = 'mbv_ads_hotelga_v1';
+  var API = 'https://www.mbvajilla.com.ar/wp-json/mbv/v1/ads-textos';
+  var KEY = 'mbv_ads_hotelga_v1';   // respaldo local, por si falla la conexion
 
   function toast(m) {
     var t = document.getElementById('toast');
     t.textContent = m; t.className = 'show';
-    setTimeout(function () { t.className = ''; }, 2000);
+    setTimeout(function () { t.className = ''; }, 2200);
   }
 
   function copiar(txt, msg) {
@@ -326,32 +338,94 @@
       badge.className = 'len' + (n > max ? ' over' : '');
     }
   }
-
   function contarTodos() {
     var els = document.querySelectorAll('[data-max]');
     for (var i = 0; i < els.length; i++) { contar(els[i]); }
   }
 
-  function guardar() {
-    var out = {}, els = document.querySelectorAll('[data-t]');
-    for (var i = 0; i < els.length; i++) { out[i] = (els[i].innerText || '').trim(); }
-    try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+  // Cada texto tiene una clave estable: bloque + posicion dentro del bloque
+  function clavear() {
+    var bloques = document.querySelectorAll('[data-block]');
+    for (var b = 0; b < bloques.length; b++) {
+      var nom = bloques[b].getAttribute('data-block');
+      var items = bloques[b].querySelectorAll('[data-t]');
+      for (var i = 0; i < items.length; i++) { items[i].setAttribute('data-k', nom + '_' + i); }
+    }
+    var sueltos = document.querySelectorAll('[data-t]:not([data-k])');
+    for (var s = 0; s < sueltos.length; s++) { sueltos[s].setAttribute('data-k', 'url_' + s); }
   }
-  function restaurar() {
-    var raw;
-    try { raw = localStorage.getItem(KEY); } catch (e) { return; }
-    if (!raw) return;
-    var data;
-    try { data = JSON.parse(raw); } catch (e) { return; }
+
+  function leerTodos() {
+    var out = {}, els = document.querySelectorAll('[data-t]');
+    for (var i = 0; i < els.length; i++) {
+      out[els[i].getAttribute('data-k')] = (els[i].innerText || '').trim();
+    }
+    return out;
+  }
+  function pintar(data) {
     var els = document.querySelectorAll('[data-t]');
-    for (var i = 0; i < els.length; i++) { if (data[i]) { els[i].innerText = data[i]; } }
+    for (var i = 0; i < els.length; i++) {
+      var k = els[i].getAttribute('data-k');
+      if (data[k]) { els[i].innerText = data[k]; }
+    }
+    contarTodos();
+  }
+
+  function estado(txt) { document.getElementById('gb-estado').innerHTML = txt; }
+
+  function guardarLocal() {
+    try { localStorage.setItem(KEY, JSON.stringify(leerTodos())); } catch (e) {}
+  }
+
+  // Al abrir: traer la ultima version guardada por cualquiera
+  function cargar() {
+    fetch(API, { cache: 'no-store' })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d && d.textos && Object.keys(d.textos).length) {
+          pintar(d.textos);
+          estado('Última versión guardada por <b>' + (d.quien || 'alguien') + '</b> · ' + (d.cuando || ''));
+        } else {
+          estado('Textos propuestos. Cuando los definan, tocá <b>Guardar los textos</b>.');
+        }
+      })
+      .catch(function () {
+        try {
+          var raw = localStorage.getItem(KEY);
+          if (raw) { pintar(JSON.parse(raw)); }
+        } catch (e) {}
+        estado('Sin conexión con el servidor — se muestran los textos propuestos.');
+      });
+  }
+
+  function guardar() {
+    var btn = document.getElementById('gb-guardar');
+    var quien = window.prompt('¿Quién guarda estos textos? (nombre o agencia)', '');
+    if (quien === null) { return; }
+    btn.disabled = true; btn.textContent = 'Guardando…';
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ textos: leerTodos(), quien: quien })
+    })
+      .then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); })
+      .then(function (d) {
+        btn.disabled = false; btn.textContent = 'Guardar los textos';
+        estado('Última versión guardada por <b>' + (d.quien || quien) + '</b> · ' + (d.cuando || ''));
+        toast('Guardado. Ahora todos ven esta versión.');
+      })
+      .catch(function () {
+        btn.disabled = false; btn.textContent = 'Guardar los textos';
+        toast('No se pudo guardar. Probá de nuevo.');
+      });
   }
 
   document.addEventListener('input', function (e) {
-    if (e.target.hasAttribute && e.target.hasAttribute('data-t')) { contar(e.target); guardar(); }
+    if (e.target.hasAttribute && e.target.hasAttribute('data-t')) { contar(e.target); guardarLocal(); }
   });
 
   document.addEventListener('click', function (e) {
+    if (e.target.closest('#gb-guardar')) { guardar(); return; }
     var btn = e.target.closest('[data-copy]');
     if (btn) {
       var el = btn.parentNode.querySelector('[data-t]');
@@ -375,8 +449,9 @@
     }
   });
 
-  restaurar();
+  clavear();
   contarTodos();
+  cargar();
 })();
 </script>
 </body>
