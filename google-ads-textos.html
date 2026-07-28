@@ -52,6 +52,17 @@
   .kw{display:flex;flex-wrap:wrap;gap:7px;margin:8px 0}
   .kw span{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:6px;padding:5px 11px;font-size:14px}
   .neg span{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+  .neg .ng{display:inline-flex;align-items:center;gap:7px;padding:5px 8px 5px 11px}
+  .neg .ng i{font-style:normal;outline:0;min-width:20px;border-bottom:1px dashed transparent}
+  .neg .ng i:hover{border-bottom-color:#f9a8a8}
+  .neg .ng i:focus{border-bottom-color:#991b1b}
+  .neg .ng b{cursor:pointer;color:#d48b8b;font-weight:400;font-size:16px;line-height:1;padding:0 2px}
+  .neg .ng b:hover{color:#991b1b}
+  .negadd{display:flex;gap:8px;margin:12px 0 0;flex-wrap:wrap}
+  .negadd input{flex:1;min-width:220px;border:1px solid #d7dce3;border-radius:8px;padding:9px 12px;font:inherit;font-size:14.5px;outline:0}
+  .negadd input:focus{border-color:#a91818;box-shadow:0 0 0 3px rgba(169,24,24,.1)}
+  .negbtn{background:#475569;color:#fff;border:0;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+  .negbtn:hover{background:#334155}
   .fases{display:grid;gap:12px}
   @media(min-width:760px){.fases{grid-template-columns:repeat(3,1fr)}}
   .fase{border:1px solid #e3e7ec;border-radius:12px;padding:16px 18px}
@@ -232,11 +243,43 @@
   </div>
 
   <h3>Palabras negativas <span class="hint">— cargar desde el día 1</span></h3>
-  <div class="kw neg">
-    <span>entradas</span><span>stand</span><span>expositor</span><span>expositores</span><span>inscripción</span>
-    <span>cómo llegar</span><span>horarios</span><span>programa</span><span>quién expone</span>
-    <span>descartable</span><span>plástico</span><span>melamina</span><span>segunda mano</span><span>usado</span>
-    <span>alquiler</span><span>curso</span><span>empleo</span><span>trabajo</span><span>gratis</span>
+  <div class="kw neg" id="negs">
+    <span class="ng"><i contenteditable="true">entradas</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">stand</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">expositor</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">expositores</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">inscripción</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">cómo llegar</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">horarios</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">programa</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">quién expone</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">descartable</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">plástico</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">melamina</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">cartón</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">segunda mano</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">usado</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">alquiler</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">curso</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">empleo</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">trabajo</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">gratis</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">receta</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">recetas</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">casamiento</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">boda</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">cumpleaños</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">infantil</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">souvenir</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">mercadolibre</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">outlet</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">liquidación</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">cómo fabricar</i><b data-delneg title="Sacar">&times;</b></span>
+    <span class="ng"><i contenteditable="true">manualidades</i><b data-delneg title="Sacar">&times;</b></span>
+  </div>
+  <div class="negadd">
+    <input type="text" id="neg-nueva" placeholder="Escribí una palabra y tocá Agregar" maxlength="60">
+    <button class="negbtn" id="neg-add">Agregar</button>
   </div>
   <button class="blockbtn" data-copyneg>Copiar las negativas</button>
   <div class="warn">
@@ -355,11 +398,52 @@
     for (var s = 0; s < sueltos.length; s++) { sueltos[s].setAttribute('data-k', 'url_' + s); }
   }
 
+  function negsLeer() {
+    var out = [], els = document.querySelectorAll('#negs .ng i');
+    for (var i = 0; i < els.length; i++) {
+      var t = (els[i].innerText || '').trim();
+      if (t) { out.push(t); }
+    }
+    return out;
+  }
+  function negChip(txt) {
+    var s = document.createElement('span');
+    s.className = 'ng';
+    var i = document.createElement('i');
+    i.setAttribute('contenteditable', 'true');
+    i.textContent = txt;
+    var b = document.createElement('b');
+    b.setAttribute('data-delneg', '');
+    b.title = 'Sacar';
+    b.innerHTML = '&times;';
+    s.appendChild(i); s.appendChild(b);
+    return s;
+  }
+  function negsPintar(lista) {
+    var cont = document.getElementById('negs');
+    cont.innerHTML = '';
+    for (var i = 0; i < lista.length; i++) { cont.appendChild(negChip(lista[i])); }
+  }
+  function negAgregar() {
+    var inp = document.getElementById('neg-nueva');
+    var v = (inp.value || '').trim();
+    if (!v) { inp.focus(); return; }
+    var partes = v.split(/[,;\n]+/);
+    for (var i = 0; i < partes.length; i++) {
+      var t = partes[i].trim();
+      if (t) { document.getElementById('negs').appendChild(negChip(t)); }
+    }
+    inp.value = ''; inp.focus();
+    guardarLocal();
+    toast(partes.length > 1 ? partes.length + ' palabras agregadas' : 'Palabra agregada');
+  }
+
   function leerTodos() {
     var out = {}, els = document.querySelectorAll('[data-t]');
     for (var i = 0; i < els.length; i++) {
       out[els[i].getAttribute('data-k')] = (els[i].innerText || '').trim();
     }
+    out['negativas'] = negsLeer().join(', ');
     return out;
   }
   function pintar(data) {
@@ -367,6 +451,10 @@
     for (var i = 0; i < els.length; i++) {
       var k = els[i].getAttribute('data-k');
       if (data[k]) { els[i].innerText = data[k]; }
+    }
+    if (data['negativas']) {
+      var l = data['negativas'].split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+      if (l.length) { negsPintar(l); }
     }
     contarTodos();
   }
@@ -442,11 +530,16 @@
       }
       return;
     }
+    if (e.target.closest('#neg-add')) { negAgregar(); return; }
+    var del = e.target.closest('[data-delneg]');
+    if (del) { del.parentNode.remove(); guardarLocal(); return; }
     if (e.target.closest('[data-copyneg]')) {
-      var negs = document.querySelectorAll('.neg span'), arr = [];
-      for (var j = 0; j < negs.length; j++) { arr.push((negs[j].textContent || '').trim()); }
-      copiar(arr.join('\n'), arr.length + ' negativas copiadas');
+      copiar(negsLeer().join('\n'), negsLeer().length + ' negativas copiadas');
     }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target.id === 'neg-nueva' && e.key === 'Enter') { e.preventDefault(); negAgregar(); }
   });
 
   clavear();
